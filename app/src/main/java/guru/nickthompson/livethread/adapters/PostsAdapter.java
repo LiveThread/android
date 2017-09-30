@@ -1,4 +1,4 @@
-package guru.nickthompson.livethread;
+package guru.nickthompson.livethread.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import guru.nickthompson.livethread.PostListFragment.OnListFragmentInteractionListener;
+import guru.nickthompson.livethread.R;
+import guru.nickthompson.livethread.fragments.PostListFragment.OnListFragmentInteractionListener;
 import guru.nickthompson.redditapi.Post;
 
 /**

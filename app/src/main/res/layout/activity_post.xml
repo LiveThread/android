@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="guru.nickthompson.livethread.PostActivity">
+    tools:context="guru.nickthompson.livethread.activities.PostActivity">
 
     <ProgressBar
         android:id="@+id/pb_post_refresh"

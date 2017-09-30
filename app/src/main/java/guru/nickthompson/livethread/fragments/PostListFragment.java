@@ -1,4 +1,4 @@
-package guru.nickthompson.livethread;
+package guru.nickthompson.livethread.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import guru.nickthompson.livethread.adapters.PostsAdapter;
+import guru.nickthompson.livethread.R;
 import guru.nickthompson.livethread.dummy.DummyContent;
 import guru.nickthompson.redditapi.Post;
 

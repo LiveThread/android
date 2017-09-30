@@ -1,10 +1,13 @@
-package guru.nickthompson.livethread;
+package guru.nickthompson.livethread.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import guru.nickthompson.livethread.fragments.PostListFragment;
+import guru.nickthompson.livethread.R;
+import guru.nickthompson.livethread.fragments.SelectSubredditFragment;
 import guru.nickthompson.redditapi.Post;
 
 public class SubredditActivity extends AppCompatActivity implements SelectSubredditFragment.OnFragmentInteractionListener, PostListFragment.OnListFragmentInteractionListener {

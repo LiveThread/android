@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="15dp"
     android:orientation="vertical"
-    tools:context="guru.nickthompson.livethread.MainActivity">
+    tools:context="guru.nickthompson.livethread.activities.MainActivity">
 
     <EditText
         android:id="@+id/et_post_id"

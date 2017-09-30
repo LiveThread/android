@@ -1,4 +1,4 @@
-package guru.nickthompson.livethread;
+package guru.nickthompson.redditapi;
 
 /**
  * Created by williamreed on 9/30/17.

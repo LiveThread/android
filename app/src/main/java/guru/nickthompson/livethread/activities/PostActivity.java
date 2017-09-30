@@ -1,4 +1,4 @@
-package guru.nickthompson.livethread;
+package guru.nickthompson.livethread.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import guru.nickthompson.livethread.AsyncCommandAndCallback;
+import guru.nickthompson.livethread.adapters.CommentsAdapter;
+import guru.nickthompson.livethread.DelayRefreshTask;
+import guru.nickthompson.livethread.R;
 import guru.nickthompson.redditapi.Comment;
 import guru.nickthompson.redditapi.Post;
 

@@ -1,4 +1,4 @@
-package guru.nickthompson.livethread;
+package guru.nickthompson.livethread.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import guru.nickthompson.livethread.R;
 import guru.nickthompson.redditapi.Comment;
 
 /**

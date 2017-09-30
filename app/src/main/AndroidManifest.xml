@@ -18,9 +18,9 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         <!--</activity>-->
-        <activity android:name=".PostActivity" />
+        <activity android:name=".activities.PostActivity" />
         <!--<activity android:name=".SubredditActivity"></activity>-->
-        <activity android:name=".SubredditActivity">
+        <activity android:name=".activities.SubredditActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

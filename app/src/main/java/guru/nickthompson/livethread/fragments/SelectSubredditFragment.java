@@ -1,4 +1,4 @@
-package guru.nickthompson.livethread;
+package guru.nickthompson.livethread.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import guru.nickthompson.livethread.R;
+import guru.nickthompson.livethread.adapters.SubredditAdapter;
+import guru.nickthompson.redditapi.Subreddit;
 
 
 /**

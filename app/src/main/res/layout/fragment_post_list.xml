@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="guru.nickthompson.livethread.PostListFragment"
+    tools:context="guru.nickthompson.livethread.fragments.PostListFragment"
     tools:listitem="@layout/item_post" />
