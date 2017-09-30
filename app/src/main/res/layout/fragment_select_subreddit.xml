@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context="guru.nickthompson.livethread.SelectSubreddit">
+    tools:context="guru.nickthompson.livethread.SelectSubredditFragment">
 
     <EditText
         android:id="@+id/et_select_subreddit"

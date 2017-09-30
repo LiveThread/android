@@ -6,23 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import guru.nickthompson.livethread.PostListFragment.OnListFragmentInteractionListener;
-import guru.nickthompson.livethread.dummy.DummyContent.DummyItem;
-
 import java.util.List;
 
+import guru.nickthompson.livethread.PostListFragment.OnListFragmentInteractionListener;
+import guru.nickthompson.redditapi.Post;
+
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Post} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Post> mPosts;
     private final OnListFragmentInteractionListener mListener;
 
-    public PostsAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public PostsAdapter(List<Post> items, OnListFragmentInteractionListener listener) {
+        mPosts = items;
         mListener = listener;
     }
 
@@ -35,10 +34,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        Post post = mPosts.get(position);
+        TextView tvPostTitle = holder.mPostTitleView;
+        // TODO: change to post.getTitle();
+        tvPostTitle.setText(post.getID());
+        // TODO: add more fields
 
+        holder.mItem = post;
+
+        //TODO: on click load comments
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,25 +57,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mPosts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mPostTitleView;
+        public Post mItem;
+        // TODO: add more fields
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            mPostTitleView = view.findViewById(R.id.tv_item_post_title);
         }
     }
 }

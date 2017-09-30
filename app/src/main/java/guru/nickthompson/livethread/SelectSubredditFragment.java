@@ -18,15 +18,15 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SelectSubreddit.OnFragmentInteractionListener} interface
+ * {@link SelectSubredditFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class SelectSubreddit extends Fragment implements View.OnClickListener {
+public class SelectSubredditFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     private List<Subreddit> subreddits;
     private ListView mListView;
 
-    public SelectSubreddit() {
+    public SelectSubredditFragment() {
         // Required empty public constructor
     }
 
