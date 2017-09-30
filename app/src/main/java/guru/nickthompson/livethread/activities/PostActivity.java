@@ -50,13 +50,13 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         // TODO: maybe abstract this a bit so we can just pass it into some builder
-        String postID = getIntent().getStringExtra("POST_ID");
         tvPostId = (TextView) findViewById(R.id.tv_post_id);
-        tvPostId.setText("Post ID: " + postID);
 
         tvPostNew = (TextView) findViewById(R.id.tv_post_new);
 
-        post = new Post(postID);
+        post = (Post) getIntent().getSerializableExtra("POST");
+
+        tvPostId.setText("Post ID: " + this.post.getID());
 
         setupComments();
 
@@ -137,7 +137,7 @@ public class PostActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // add scroll listener for it
-        recyclerView.addOnScrollListener(new ScrollListener()));
+        recyclerView.addOnScrollListener(new ScrollListener());
     }
 
     public class ScrollListener extends RecyclerView.OnScrollListener {
@@ -148,6 +148,7 @@ public class PostActivity extends AppCompatActivity {
 
             int pos = layoutManager.findFirstCompletelyVisibleItemPosition();
             //TODO: display in TextView the position
+            tvPostNew.setText(String.valueOf(pos));
         }
     }
 

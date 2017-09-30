@@ -43,7 +43,7 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
     @Override
     public void onListFragmentInteraction(Post item) {
         Intent intent = new Intent(getApplicationContext(), PostActivity.class);
-        intent.putExtra("POST_ID", item.getID());
+        intent.putExtra("POST", item);
         startActivity(intent);
     }
 }
