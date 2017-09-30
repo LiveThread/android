@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import guru.nickthompson.livethread.R;
+import guru.nickthompson.redditapi.Post;
 
 /**
  * Main activity upon load
@@ -18,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
 
     public void loadPost(View view) {
@@ -33,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        Post post = new Post(postId, "title", 0, 0, new Date(150800546), "nick");
+
         // pass into next activity
         Intent intent = new Intent(this, PostActivity.class);
-        intent.putExtra("POST_ID", postId);
+        intent.putExtra("POST", post);
         startActivity(intent);
     }
 }

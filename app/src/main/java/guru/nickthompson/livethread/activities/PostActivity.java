@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -49,7 +50,10 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         // TODO: maybe abstract this a bit so we can just pass it into some builder
+        tvPostId = (TextView) findViewById(R.id.tv_post_id);
+
         tvPostNew = (TextView) findViewById(R.id.tv_post_new);
+
         post = (Post) getIntent().getSerializableExtra("POST");
         tvPostId = (TextView) findViewById(R.id.tv_post_id);
         tvPostId.setText("Post ID: " + this.post.getID());
@@ -142,9 +146,15 @@ public class PostActivity extends AppCompatActivity {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            int pos = layoutManager.findFirstCompletelyVisibleItemPosition();
+            int pos = layoutManager.findFirstVisibleItemPosition();
+            pos++;
             //TODO: display in TextView the position
-            tvPostNew.setText(String.valueOf(pos));
+            if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
+                tvPostNew.setText(String.valueOf(pos));
+            } else {
+                tvPostNew.setText("");
+            }
+
         }
     }
 
@@ -180,17 +190,11 @@ public class PostActivity extends AppCompatActivity {
         // TODO: this if statement is pointless, right?
         @Override
         public void callback(ArrayList<Comment> result) {
-            if (comments.size() == 0) {
-                Collections.reverse(result);
-                for (Comment c : result) {
-                    addComment(c);
-                }
-            } else {
-                Collections.reverse(result);
-                for (Comment c : result) {
-                    addComment(c);
-                }
+            Collections.reverse(result);
+            for (Comment c : result) {
+                addComment(c);
             }
         }
     }
 }
+
