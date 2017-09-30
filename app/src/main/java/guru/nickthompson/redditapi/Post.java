@@ -76,7 +76,7 @@ public class Post {
 
         for (int i = 0; i < allComments.size(); i++) {
             if (allComments.get(i).getID().equals(commentID)) {
-                newComments = new ArrayList<>(allComments.subList(0, i - 1));
+                newComments = new ArrayList<>(allComments.subList(0, i));
             }
         }
 

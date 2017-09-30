@@ -32,6 +32,10 @@ public class PostActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
 
+    private Handler refreshHandler;
+    private Runnable refreshRunnable;
+    private boolean refresh = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,24 +55,48 @@ public class PostActivity extends AppCompatActivity {
         repeatingRefresh();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        refresh = false;
+        refreshHandler.removeCallbacks(refreshRunnable);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        refresh = false;
+        refreshHandler.removeCallbacks(refreshRunnable);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh = true;
+    }
+
     /**
      * Responsible for repeatedly refreshing the comments.
      */
     private void repeatingRefresh() {
         // helps run code on a given thread after a delay & periodically
-        final Handler handler = new Handler();
+        refreshHandler = new Handler();
 
-        Runnable runnable = new Runnable() {
+        refreshRunnable = new Runnable() {
             @Override
             public void run() {
                 new DelayRefreshTask(DELAY, progressBar, new CommentRefresher()).execute();
 
-                handler.postDelayed(this, DELAY);
+                if (refresh) {
+                    refreshHandler.postDelayed(this, DELAY);
+                }
             }
         };
 
-        handler.post(runnable);
+        refreshHandler.post(refreshRunnable);
     }
+
 
     /**
      * Setup recycler view and get the data setup.
@@ -110,6 +138,7 @@ public class PostActivity extends AppCompatActivity {
 
         @Override
         public ArrayList<Comment> command() {
+            Log.d(TAG, "running command");
             if (comments.size() == 0) {
                 return post.getAllComments();
             } else {
