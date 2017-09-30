@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context="guru.nickthompson.livethread.PostActivity">
 
+    <ProgressBar
+        android:id="@+id/pb_post_refresh"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-8dp"
+        android:layout_marginTop="-7dp"
+        android:max="1000"
+        android:visibility="visible" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

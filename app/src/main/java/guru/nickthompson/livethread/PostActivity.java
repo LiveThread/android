@@ -6,6 +6,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class PostActivity extends AppCompatActivity {
     private ArrayList<Comment> comments;
     private CommentsAdapter adapter;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class PostActivity extends AppCompatActivity {
         post = new Post(postID);
 
         setupComments();
+
+        progressBar = (ProgressBar) findViewById(R.id.pb_post_refresh);//.get();
+        // new DelayRefreshTask(5000, progressBar).execute();
     }
 
     /**
