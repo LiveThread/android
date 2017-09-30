@@ -1,13 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
     tools:context="guru.nickthompson.livethread.SelectSubreddit">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <EditText
+        android:id="@+id/et_select_subreddit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter subreddit" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/b_select_subreddit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Subreddit" />
+
+    <!-- Seperator -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Popular Live Thread Subreddits" />
+
+    <ListView
+        android:id="@+id/lv_select_subreddit_popular"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+
+
+</LinearLayout>
