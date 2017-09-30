@@ -86,7 +86,7 @@ public class PostActivity extends AppCompatActivity {
     private void initializeRepeatingRefresh() {
         final CommentRefresher commentRefresherFunctionObject = new CommentRefresher();
         //initial run
-        new DelayRefreshTask(0, progressBar, commentRefresherFunctionObject, new AtomicBoolean(false)).execute();
+        new DelayRefreshTask(progressBar, commentRefresherFunctionObject).execute();
 
         // helps run code on a given thread after a delay & periodically
         refreshHandler = new Handler();
