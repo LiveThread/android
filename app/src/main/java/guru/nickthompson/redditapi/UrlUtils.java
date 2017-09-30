@@ -62,7 +62,7 @@ public class UrlUtils {
      * @return a String representation of the full URL.
      */
     protected static String getPostUrl(String postID) {
-        return "https://www.reddit.com/comments/" + postID + ".json?sort=new";
+        return "https://www.reddit.com/comments/" + postID + ".json?sort=new&raw_json=1";
     }
 
     /**
@@ -72,7 +72,7 @@ public class UrlUtils {
      * @return a String representation of the full URL.
      */
     protected static String getSubredditUrl(String subreddit) {
-        return "https://www.reddit.com/r/" + subreddit + ".json?sort=new";
+        return "https://www.reddit.com/r/" + subreddit + ".json?sort=new&raw_json=1";
     }
 
     /**
