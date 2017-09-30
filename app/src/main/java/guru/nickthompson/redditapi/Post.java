@@ -1,5 +1,8 @@
 package guru.nickthompson.redditapi;
 
+import android.text.Html;
+import android.util.Log;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -47,14 +50,18 @@ public class Post {
             JsonArray commentChildren = commentListing.get("data").getAsJsonObject().getAsJsonArray("children");
 
             for (JsonElement t1 : commentChildren) {
-                JsonObject commentData = t1.getAsJsonObject().getAsJsonObject("data");
+                if (t1.getAsJsonObject().get("kind").getAsString().equals("t1")) {
+                    JsonObject commentData = t1.getAsJsonObject().getAsJsonObject("data");
 
-                String commentID = commentData.get("id").getAsString();
-                String username = commentData.get("author").getAsString();
-                Date timestamp = new Date(commentData.get("created_utc").getAsLong() * 1000);
-                String body = commentData.get("body_html").getAsString();
+                    if (!commentData.get("stickied").getAsBoolean()) {
+                        String commentID = commentData.get("id").getAsString();
+                        String username = commentData.get("author").getAsString();
+                        Date timestamp = new Date(commentData.get("created_utc").getAsLong() * 1000);
+                        String body = commentData.get("body_html").getAsString();
 
-                comments.add(new Comment(this, commentID, username, timestamp, body));
+                        comments.add(new Comment(this, commentID, username, timestamp, body));
+                    }
+                }
             }
 
         } catch (Exception e) {
@@ -74,11 +81,25 @@ public class Post {
         ArrayList<Comment> allComments = this.getAllComments();
         ArrayList<Comment> newComments = new ArrayList<>();
 
+//        String comments = "";
+//        for (Comment c : allComments) {
+//            comments += "\nID: " + c.getID() + "   User: " + c.getUsername() + "   Body: " + Html.fromHtml(c.getBody()).toString();
+//        }
+//        Log.d("getCommentAfter", comments);
+
+//        String newDebugComments = "";
         for (int i = 0; i < allComments.size(); i++) {
             if (allComments.get(i).getID().equals(commentID)) {
+//                newDebugComments += "\nMATCHES: ID: " + allComments.get(i).getID() + "   Body: " + Html.fromHtml(allComments.get(i).getBody()).toString() + "NEW COMMENTS:\n\n";
                 newComments = new ArrayList<>(allComments.subList(0, i));
             }
         }
+
+//        for (Comment c : newComments) {
+//            newDebugComments += "\nNEW COMMENT ID: " + c.getID() + "   User: " + c.getUsername() + "   Body: " + Html.fromHtml(c.getBody()).toString();
+//        }
+//
+//        Log.d("getCommentAfterNew",  newDebugComments);
 
         return newComments;
     }
