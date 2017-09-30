@@ -8,9 +8,12 @@
 
     <EditText
         android:id="@+id/et_select_subreddit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter subreddit" />
+        android:hint="Enter subreddit name"
+        android:inputType="text|textNoSuggestions"
+        android:selectAllOnFocus="false"
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/b_select_subreddit"
