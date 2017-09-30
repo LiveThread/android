@@ -75,8 +75,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         date.setText(comment.getTimeStamp().toString());
 
         TextView content = viewHolder.tvContent;
-        // deprectated but we cant use newer version bc it requries >API 24
-        content.setText(Html.fromHtml(comment.getBody()));
+
+        // TODO: update to respect api and deprecation
+//        if (Build.VERSION.SDK_INT >= 24) {
+//            content.setText(Html.fromHtml(comment.getBody(), Html.FROM_HTML_MODE_LEGACY)); // for 24 api and more
+//        } else {
+//            content.setText(Html.fromHtml(comment.getBody())) ;// or for older api
+//        }
+
+        // double unescape
+        content.setText(Html.fromHtml(Html.fromHtml(comment.getBody()).toString()));
     }
 
     // Returns the total count of items in the list
