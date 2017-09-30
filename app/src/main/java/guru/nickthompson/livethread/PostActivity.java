@@ -11,6 +11,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Date;
 
+import guru.nickthompson.redditapi.Comment;
+import guru.nickthompson.redditapi.ParsePost;
+import guru.nickthompson.redditapi.Post;
+
 /**
  * Activity for handling a post in Live Thread mode
  */
@@ -19,8 +23,8 @@ public class PostActivity extends AppCompatActivity {
     private String postId;
     private TextView tvPostId;
 
-    private ArrayList<PostComment> comments;
-    private PostCommentsAdapter adapter;
+    private ArrayList<Comment> comments;
+    private CommentsAdapter adapter;
     private RecyclerView recyclerView;
 
     @Override
@@ -49,9 +53,9 @@ public class PostActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         // TODO: actually populate comments here, this is just dummy data
-        comments = PostComment.testComments(20);
+        comments = new ArrayList<>();
         // Create adapter passing in the sample user data
-        adapter = new PostCommentsAdapter(this, comments);
+        adapter = new CommentsAdapter(this, comments);
         // Attach the adapter to the recyclerview to populate items
         recyclerView.setAdapter(adapter);
         // Set layout manager to position the items
@@ -60,7 +64,7 @@ public class PostActivity extends AppCompatActivity {
 
     // TODO: remove after button is removed. just for testing
     public void addCommentTest(View view) {
-        addComment(new PostComment("new-post-username", new Date(), "commenta a;sd;fi asdf"));
+        addComment(new Comment(new Post(this.postId), "new-post-username", new Date(), "commenta a;sd;fi asdf"));
     }
 
     /**
@@ -69,7 +73,9 @@ public class PostActivity extends AppCompatActivity {
     public void updateComments(View view) {
         // TODO: fill in with implemented parser
         if (comments.size() == 0) {
-            // fetch all comments
+            ParsePost p = new ParsePost(new Post(this.postId));
+            this.comments = p.getAllComments();
+
         } else {
             // just update comments
         }
@@ -80,7 +86,7 @@ public class PostActivity extends AppCompatActivity {
      *
      * @param comment the new comment.
      */
-    private void addComment(PostComment comment) {
+    private void addComment(Comment comment) {
         comments.add(0, comment);
         adapter.notifyItemInserted(0);
         recyclerView.smoothScrollToPosition(0);

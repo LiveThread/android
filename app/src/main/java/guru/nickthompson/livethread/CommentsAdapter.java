@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import guru.nickthompson.redditapi.Comment;
+
 /**
  * Created by williamreed on 9/29/17.
  * <p>
@@ -17,7 +19,7 @@ import java.util.List;
  * thanks code path
  */
 
-public class PostCommentsAdapter extends RecyclerView.Adapter<PostCommentsAdapter.ViewHolder> {
+public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvUsername;
@@ -33,10 +35,10 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<PostCommentsAdapte
         }
     }
 
-    private List<PostComment> comments;
+    private List<Comment> comments;
     private Context context;
 
-    public PostCommentsAdapter(Context context, List<PostComment> comments) {
+    public CommentsAdapter(Context context, List<Comment> comments) {
         this.context = context;
         this.comments = comments;
     }
@@ -47,7 +49,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<PostCommentsAdapte
 
     // Usually involves inflating a layout from XML and returning the holder
     @Override
-    public PostCommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -61,9 +63,9 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<PostCommentsAdapte
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(PostCommentsAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(CommentsAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        PostComment comment = comments.get(position);
+        Comment comment = comments.get(position);
 
         // Set item views based on your views and data model
         TextView username = viewHolder.tvUsername;
@@ -74,7 +76,7 @@ public class PostCommentsAdapter extends RecyclerView.Adapter<PostCommentsAdapte
 
         TextView content = viewHolder.tvContent;
         // deprectated but we cant use newer version bc it requries >API 24
-        content.setText(Html.fromHtml(comment.getContent()));
+        content.setText(Html.fromHtml(comment.getBody()));
     }
 
     // Returns the total count of items in the list
