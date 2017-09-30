@@ -9,9 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import guru.nickthompson.livethread.adapters.PostsAdapter;
 import guru.nickthompson.livethread.R;
-import guru.nickthompson.livethread.dummy.DummyContent;
+import guru.nickthompson.livethread.adapters.PostsAdapter;
 import guru.nickthompson.redditapi.Post;
 
 /**
@@ -59,7 +58,8 @@ public class PostListFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new PostsAdapter(DummyContent.ITEMS, mListener));
+            // TODO: inject the data
+            recyclerView.setAdapter(new PostsAdapter(null, mListener));
         }
         return view;
     }
