@@ -44,13 +44,17 @@ public class Subreddit {
     /**
      * Gets all hot posts from this subreddit.
      *
+     * @param subreddit the name of the subreddit.
      * @return an ArrayList of Posts.
      */
-    public ArrayList<Post> getAllPosts() {
+    public static ArrayList<Post> getAllPosts(String subreddit) {
         ArrayList<Post> posts = new ArrayList<>();
 
         try {
-            JsonArray rawData = new JsonParser().parse(UrlUtils.readUrlSubreddit(this.name)).getAsJsonObject().get("data").getAsJsonObject().get("children").getAsJsonArray();
+            JsonArray rawData = new JsonParser().parse(UrlUtils.readUrlSubreddit(subreddit))
+                    .getAsJsonObject().get("data")
+                    .getAsJsonObject().get("children")
+                    .getAsJsonArray();
 
             for (JsonElement t3 : rawData) {
                 JsonObject postData = t3.getAsJsonObject().getAsJsonObject("data");

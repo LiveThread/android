@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -50,12 +49,9 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         // TODO: maybe abstract this a bit so we can just pass it into some builder
-        tvPostId = (TextView) findViewById(R.id.tv_post_id);
-
         tvPostNew = (TextView) findViewById(R.id.tv_post_new);
-
         post = (Post) getIntent().getSerializableExtra("POST");
-
+        tvPostId = (TextView) findViewById(R.id.tv_post_id);
         tvPostId.setText("Post ID: " + this.post.getID());
 
         setupComments();

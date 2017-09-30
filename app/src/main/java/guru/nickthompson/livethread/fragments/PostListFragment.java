@@ -5,13 +5,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+import guru.nickthompson.livethread.AsyncCACRunner;
+import guru.nickthompson.livethread.AsyncCommandAndCallback;
 import guru.nickthompson.livethread.R;
 import guru.nickthompson.livethread.adapters.PostsAdapter;
 import guru.nickthompson.redditapi.Post;
+import guru.nickthompson.redditapi.Subreddit;
 
 /**
  * A fragment representing a list of Subreddit posts.
@@ -23,6 +29,7 @@ public class PostListFragment extends Fragment {
     private static final String ARG_SUBREDDIT_NAME = "SUBREDDIT_NAME";
     private String mSubredditName = "frontpage";
     private OnListFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,11 +63,11 @@ public class PostListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            // TODO: inject the data
-            recyclerView.setAdapter(new PostsAdapter(null, mListener));
+            new AsyncCACRunner<ArrayList<Post>>(new PostFetcher(mSubredditName)).execute();
         }
+
         return view;
     }
 
@@ -94,5 +101,27 @@ public class PostListFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Post item);
+    }
+
+    /**
+     * Function object responsible for fetching all posts and adding to RecyclerView.
+     */
+    public class PostFetcher implements AsyncCommandAndCallback<ArrayList<Post>> {
+
+        String subredditName;
+
+        public PostFetcher(String subredditName) {
+            this.subredditName = subredditName;
+        }
+
+        @Override
+        public ArrayList<Post> command() {
+            return Subreddit.getAllPosts(subredditName);
+        }
+
+        @Override
+        public void callback(ArrayList<Post> result) {
+            recyclerView.setAdapter(new PostsAdapter(result, mListener));
+        }
     }
 }
