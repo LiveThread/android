@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import guru.nickthompson.redditapi.Comment;
-import guru.nickthompson.redditapi.ParsePost;
 import guru.nickthompson.redditapi.Post;
 
 /**
@@ -20,7 +20,7 @@ import guru.nickthompson.redditapi.Post;
  */
 public class PostActivity extends AppCompatActivity {
 
-    private String postId;
+    private Post post;
     private TextView tvPostId;
 
     private ArrayList<Comment> comments;
@@ -32,9 +32,10 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        postId = getIntent().getStringExtra("POST_ID");
+        String postID = getIntent().getStringExtra("POST_ID");
         tvPostId = (TextView) findViewById(R.id.tv_post_id);
-        tvPostId.setText("Post ID: " + postId);
+        tvPostId.setText("Post ID: " + postID);
+        post = new Post(postID);
 
         setupComments();
     }
@@ -64,7 +65,7 @@ public class PostActivity extends AppCompatActivity {
 
     // TODO: remove after button is removed. just for testing
     public void addCommentTest(View view) {
-        addComment(new Comment(new Post(this.postId), "new-post-username", new Date(), "commenta a;sd;fi asdf"));
+        addComment(new Comment(new Post(this.post.getID()), "bnd82ns", "new-post-username", new Date(), "commenta a;sd;fi asdf"));
     }
 
     /**
@@ -73,11 +74,14 @@ public class PostActivity extends AppCompatActivity {
     public void updateComments(View view) {
         // TODO: fill in with implemented parser
         if (comments.size() == 0) {
-            ParsePost p = new ParsePost(new Post(this.postId));
-            this.comments = p.getAllComments();
+            this.comments = this.post.getAllComments();
 
         } else {
-            // just update comments
+            ArrayList<Comment> newComments = this.post.getCommentsAfter(this.comments.get(0).getID());
+            Collections.reverse(newComments);
+            for (Comment c : newComments) {
+                this.addComment(c);
+            }
         }
     }
 
