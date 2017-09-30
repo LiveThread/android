@@ -1,8 +1,5 @@
 package guru.nickthompson.redditapi;
 
-import android.text.Html;
-import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,22 +12,72 @@ import java.util.Date;
  * Represents a post in a Reddit subreddit.
  */
 public class Post {
-    private final String postID;
+    private final String id;
+    private final String title;
+    private final int score;
+    private final int numComments;
+    private final Date created;
+    private final String author;
 
     /**
      * Creates a new post based off of a String ID.
      *
-     * @param postID the Reddit ID of the post.
+     * @param id          the Reddit ID of the post.
+     * @param title       the title of the post.
+     * @param score       the overall score of the post.
+     * @param numComments the number of comments in a post.
+     * @param created     the date and time the post was created.
+     * @param author      the username of the author of the post.
      */
-    public Post(String postID) {
-        this.postID = postID;
+    public Post(String id, String title, int score, int numComments, Date created, String author) {
+        this.id = id;
+        this.title = title;
+        this.score = score;
+        this.numComments = numComments;
+        this.created = created;
+        this.author = author;
     }
 
     /**
-     * @return the ID of this Post.
+     * @return the id of this post.
      */
     public String getID() {
-        return this.postID;
+        return this.id;
+    }
+
+    /**
+     * @return the title of the post.
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @return the current overall score of the post.
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * @return the number of comments in the post.
+     */
+    public int getNumComments() {
+        return numComments;
+    }
+
+    /**
+     * @return the date the post was submitted.
+     */
+    public Date getCreated() {
+        return created;
+    }
+
+    /**
+     * @return the username of the author of the post.
+     */
+    public String getAuthor() {
+        return author;
     }
 
     /**
@@ -42,7 +89,7 @@ public class Post {
         ArrayList<Comment> comments = new ArrayList<>();
 
         try {
-            JsonArray rawData = new JsonParser().parse(UrlUtils.readUrlID(this.postID)).getAsJsonArray();
+            JsonArray rawData = new JsonParser().parse(UrlUtils.readUrlID(this.id)).getAsJsonArray();
 
             JsonObject postListing = rawData.get(0).getAsJsonObject();
             JsonObject commentListing = rawData.get(1).getAsJsonObject();
