@@ -8,8 +8,8 @@
         android:id="@+id/tv_item_subreddit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_item_subreddit_description"

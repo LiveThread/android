@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by williamreed on 9/30/17.
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class SubredditAdapter extends ArrayAdapter<Subreddit> {
 
-    public SubredditAdapter(Context context, ArrayList<Subreddit> subreddits) {
+    public SubredditAdapter(Context context, List<Subreddit> subreddits) {
         super(context, 0, subreddits);
     }
 
