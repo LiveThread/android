@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import guru.nickthompson.redditapi.Comment;
 import guru.nickthompson.redditapi.Post;
@@ -22,7 +23,7 @@ import guru.nickthompson.redditapi.Post;
 public class PostActivity extends AppCompatActivity {
     // 5000 ms (5s) delay between refreshses
     private static final long DELAY = 5000;
-    private static final String TAG = "LiveThread.PostActivity";
+    private static final String TAG = "LT.PostActivity";
 
     private Post post;
     private TextView tvPostId;
@@ -34,7 +35,7 @@ public class PostActivity extends AppCompatActivity {
 
     private Handler refreshHandler;
     private Runnable refreshRunnable;
-    private boolean refresh = true;
+    private volatile AtomicBoolean runRefresh = new AtomicBoolean(true);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,36 +53,40 @@ public class PostActivity extends AppCompatActivity {
         // new DelayRefreshTask(5000, progressBar).execute();
 
         Log.d(TAG, "calling repeating refresh");
-        repeatingRefresh();
+        initializeRepeatingRefresh();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
-        refresh = false;
-        refreshHandler.removeCallbacks(refreshRunnable);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        refresh = false;
-        refreshHandler.removeCallbacks(refreshRunnable);
+
+        cancelRefresh();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refresh = true;
+    }
+
+    /**
+     * Cancel the refresh. Lets the current AsyncTask finish then it stops repeatedly calling.
+     */
+    private void cancelRefresh() {
+        runRefresh.set(false);
     }
 
     /**
      * Responsible for repeatedly refreshing the comments.
      */
-    private void repeatingRefresh() {
+    private void initializeRepeatingRefresh() {
+        final CommentRefresher commentRefresherFunctionObject = new CommentRefresher();
         //initial run
-        new DelayRefreshTask(0, progressBar, new CommentRefresher()).execute();
+        new DelayRefreshTask(0, progressBar, commentRefresherFunctionObject, new AtomicBoolean(false)).execute();
 
         // helps run code on a given thread after a delay & periodically
         refreshHandler = new Handler();
@@ -89,13 +94,8 @@ public class PostActivity extends AppCompatActivity {
         refreshRunnable = new Runnable() {
             @Override
             public void run() {
-                new DelayRefreshTask(DELAY, progressBar, new CommentRefresher()).execute();
-
-                if (refresh) {
-                    refreshHandler.postDelayed(this, DELAY);
-                } else {
-                    Log.d(TAG, "refreshing cancelled");
-                }
+                new DelayRefreshTask(DELAY, progressBar, commentRefresherFunctionObject, runRefresh)
+                        .execute();
             }
         };
 
