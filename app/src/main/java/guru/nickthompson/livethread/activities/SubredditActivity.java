@@ -1,5 +1,6 @@
 package guru.nickthompson.livethread.activities;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +32,8 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
     @Override
     public void onSubredditClick(String subredditName) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fl_subreddit, PostListFragment.newInstance(subredditName));
+        ft.replace(R.id.fl_subreddit, PostListFragment.newInstance(subredditName))
+                .addToBackStack(null);
         ft.commit();
     }
 
@@ -45,5 +47,18 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
         Intent intent = new Intent(getApplicationContext(), PostActivity.class);
         intent.putExtra("POST", item);
         startActivity(intent);
+    }
+
+    /**
+     * Handle back button returning to previous fragment (and activity).
+     */
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
