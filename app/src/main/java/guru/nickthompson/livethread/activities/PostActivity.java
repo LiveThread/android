@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,9 +16,9 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import guru.nickthompson.livethread.AsyncCommandAndCallback;
-import guru.nickthompson.livethread.adapters.CommentsAdapter;
 import guru.nickthompson.livethread.DelayRefreshTask;
 import guru.nickthompson.livethread.R;
+import guru.nickthompson.livethread.adapters.CommentsAdapter;
 import guru.nickthompson.redditapi.Comment;
 import guru.nickthompson.redditapi.Post;
 
@@ -119,8 +120,8 @@ public class PostActivity extends AppCompatActivity {
     private void setupComments() {
         // Lookup the recyclerview in activity layout
         recyclerView = (RecyclerView) findViewById(R.id.rv_post_comments);
-        this.layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(this.layoutManager);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         // add a horizontal line between items
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -134,6 +135,20 @@ public class PostActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(layoutManager);
+
+        // add scroll listener for it
+        recyclerView.addOnScrollListener(new ScrollListener()));
+    }
+
+    public class ScrollListener extends RecyclerView.OnScrollListener {
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            int pos = layoutManager.findFirstCompletelyVisibleItemPosition();
+            //TODO: display in TextView the position
+        }
     }
 
     /**
@@ -165,6 +180,7 @@ public class PostActivity extends AppCompatActivity {
             }
         }
 
+        // TODO: this if statement is pointless, right?
         @Override
         public void callback(ArrayList<Comment> result) {
             if (comments.size() == 0) {
