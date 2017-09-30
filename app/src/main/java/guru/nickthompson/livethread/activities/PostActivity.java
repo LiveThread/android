@@ -48,6 +48,7 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+        // TODO: maybe abstract this a bit so we can just pass it into some builder
         String postID = getIntent().getStringExtra("POST_ID");
         tvPostId = (TextView) findViewById(R.id.tv_post_id);
         tvPostId.setText("Post ID: " + postID);

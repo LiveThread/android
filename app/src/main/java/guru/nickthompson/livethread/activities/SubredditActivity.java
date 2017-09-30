@@ -1,12 +1,13 @@
 package guru.nickthompson.livethread.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import guru.nickthompson.livethread.fragments.PostListFragment;
 import guru.nickthompson.livethread.R;
+import guru.nickthompson.livethread.fragments.PostListFragment;
 import guru.nickthompson.livethread.fragments.SelectSubredditFragment;
 import guru.nickthompson.redditapi.Post;
 
@@ -23,14 +24,26 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
         ft.commit();
     }
 
+    /**
+     * Called when a subreddit is entered / clicked.
+     *
+     * @param subredditName name of the subreddit.
+     */
     @Override
     public void onSubredditClick(String subredditName) {
         // TODO: start new fragment with this subreddit
         Toast.makeText(getApplicationContext(), subredditName, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Called on click of a Post.
+     *
+     * @param item the Post that was clicked.
+     */
     @Override
     public void onListFragmentInteraction(Post item) {
-        // TODO: start the live thread activity with this subreddit data
+        Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+        intent.putExtra("POST_ID", item.getID());
+        startActivity(intent);
     }
 }
