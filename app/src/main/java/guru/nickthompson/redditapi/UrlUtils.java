@@ -64,4 +64,25 @@ public class UrlUtils {
     protected static String getPostUrl(String postID) {
         return "https://www.reddit.com/comments/" + postID + ".json?sort=new";
     }
+
+    /**
+     * Provides the full URL of the new JSON data for a given subreddit.
+     *
+     * @param subreddit
+     * @return a String representation of the full URL.
+     */
+    protected static String getSubredditUrl(String subreddit) {
+        return "https://www.reddit.com/r/" + subreddit + ".json?sort=new";
+    }
+
+    /**
+     * Returns the Reddit JSON content from a provided post ID.
+     *
+     * @param subreddit the
+     * @return the Reddit content from the given URL.
+     * @throws Exception when there is a problem reading the URL. TODO fix up Exceptions
+     */
+    protected static String readUrlSubreddit(String subreddit) throws Exception {
+        return readUrl(getSubredditUrl(subreddit));
+    }
 }

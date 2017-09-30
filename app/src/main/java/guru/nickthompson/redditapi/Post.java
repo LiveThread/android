@@ -5,13 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Represents a post in a Reddit subreddit.
  */
-public class Post {
+public class Post implements Serializable {
     private final String id;
     private final String title;
     private final int score;
