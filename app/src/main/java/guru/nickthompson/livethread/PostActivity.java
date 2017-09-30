@@ -27,11 +27,13 @@ public class PostActivity extends AppCompatActivity {
 
     private Post post;
     private TextView tvPostId;
+    private TextView tvPostNew;
 
     private ArrayList<Comment> comments;
     private CommentsAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private LinearLayoutManager layoutManager;
 
     private Handler refreshHandler;
     private Runnable refreshRunnable;
@@ -45,6 +47,9 @@ public class PostActivity extends AppCompatActivity {
         String postID = getIntent().getStringExtra("POST_ID");
         tvPostId = (TextView) findViewById(R.id.tv_post_id);
         tvPostId.setText("Post ID: " + postID);
+
+        tvPostNew = (TextView) findViewById(R.id.tv_post_new);
+
         post = new Post(postID);
 
         setupComments();
@@ -109,7 +114,8 @@ public class PostActivity extends AppCompatActivity {
     private void setupComments() {
         // Lookup the recyclerview in activity layout
         recyclerView = (RecyclerView) findViewById(R.id.rv_post_comments);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        this.layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(this.layoutManager);
 
         // add a horizontal line between items
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -133,7 +139,10 @@ public class PostActivity extends AppCompatActivity {
     private void addComment(Comment comment) {
         comments.add(0, comment);
         adapter.notifyItemInserted(0);
-        recyclerView.smoothScrollToPosition(0);
+
+        if (this.layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+            recyclerView.smoothScrollToPosition(0);
+        }
     }
 
     /**
