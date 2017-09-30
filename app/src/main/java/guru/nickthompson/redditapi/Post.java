@@ -9,20 +9,32 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by nick on 9/29/17.
+ * Represents a post in a Reddit subreddit.
  */
-
 public class Post {
     private final String postID;
 
+    /**
+     * Creates a new post based off of a String ID.
+     *
+     * @param postID the Reddit ID of the post.
+     */
     public Post(String postID) {
         this.postID = postID;
     }
 
+    /**
+     * @return the ID of this Post.
+     */
     public String getID() {
         return this.postID;
     }
 
+    /**
+     * Gets all comments from the post, sorted newest first.
+     *
+     * @return an ArrayList of Comments sorted by newest first.
+     */
     public ArrayList<Comment> getAllComments() {
         ArrayList<Comment> comments = new ArrayList<>();
 
@@ -52,18 +64,22 @@ public class Post {
         return comments;
     }
 
+    /**
+     * Gets comments from the post only after the provided comment ID.
+     *
+     * @param commentID the unique Reddit ID of the comment in a post.
+     * @return an ArrayList of Comments newer than the given comment ID.
+     */
     public ArrayList<Comment> getCommentsAfter(String commentID) {
         ArrayList<Comment> allComments = this.getAllComments();
         ArrayList<Comment> newComments = new ArrayList<>();
 
         for (int i = 0; i < allComments.size(); i++) {
             if (allComments.get(i).getID().equals(commentID)) {
-               newComments = new ArrayList<>(allComments.subList(0, i - 1));
+                newComments = new ArrayList<>(allComments.subList(0, i - 1));
             }
         }
 
         return newComments;
     }
-
-
 }

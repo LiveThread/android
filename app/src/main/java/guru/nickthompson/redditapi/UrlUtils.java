@@ -6,21 +6,30 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * Created by nick on 9/29/17.
+ * Utilities for reading Reddit URLs.
  */
-
 public class UrlUtils {
 
+    // User agent for the app. TODO get version number
     private static final String userAgent = "android:guru.nickthompson.livethread:v0.0.1";
 
-    public static String readUrl(String urlString) throws Exception {
+    /**
+     * Returns the content from a provided String URL.
+     *
+     * @param urlString is a String representation of a URL.
+     * @return the content from the given URL.
+     * @throws Exception when there is a problem reading the URL. TODO fix up Exceptions
+     */
+    protected static String readUrl(String urlString) throws Exception {
 
         BufferedReader reader = null;
 
         try {
+            // Creates a new URL and sets the user agent
             URLConnection url = new URL(urlString).openConnection();
             url.setRequestProperty("User-Agent", userAgent);
 
+            // magic!!
             reader = new BufferedReader(new InputStreamReader(url.getInputStream()));
             StringBuffer buffer = new StringBuffer();
             int read;
@@ -35,13 +44,24 @@ public class UrlUtils {
         }
     }
 
-    public static String readUrlID(String postID) throws Exception {
+    /**
+     * Returns the Reddit JSON content from a provided post ID.
+     *
+     * @param postID the Reddit ID of the {@link Post}.
+     * @return the Reddit content from the given URL.
+     * @throws Exception when there is a problem reading the URL. TODO fix up Exceptions
+     */
+    protected static String readUrlID(String postID) throws Exception {
         return readUrl(getPostUrl(postID));
     }
 
-    public static String getPostUrl(String postID) {
+    /**
+     * Provides the full URL of the new JSON data for a given post ID.
+     *
+     * @param postID the Reddit ID of the {@link Post}.
+     * @return a String representation of the full URL.
+     */
+    protected static String getPostUrl(String postID) {
         return "https://www.reddit.com/comments/" + postID + ".json?sort=new";
     }
-
-
 }
