@@ -146,9 +146,15 @@ public class PostActivity extends AppCompatActivity {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            int pos = layoutManager.findFirstCompletelyVisibleItemPosition();
+            int pos = layoutManager.findFirstVisibleItemPosition();
+            pos++;
             //TODO: display in TextView the position
-            tvPostNew.setText(String.valueOf(pos));
+            if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
+                tvPostNew.setText(String.valueOf(pos));
+            } else {
+                tvPostNew.setText("");
+            }
+
         }
     }
 
