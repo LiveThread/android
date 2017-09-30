@@ -154,6 +154,7 @@ public class PostActivity extends AppCompatActivity {
         @Override
         public void callback(ArrayList<Comment> result) {
             if (comments.size() == 0) {
+                Collections.reverse(result);
                 for (Comment c : result) {
                     addComment(c);
                 }
