@@ -22,9 +22,15 @@
             android:id="@+id/b_post_add_comment_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="add new comment"
-            android:onClick="addCommentTest"/>
+            android:onClick="addCommentTest"
+            android:text="add new comment" />
+
+        <Button
+            android:id="@+id/b_post_update_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="updateComments"
+            android:text="update comments" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

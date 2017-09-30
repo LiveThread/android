@@ -64,6 +64,18 @@ public class PostActivity extends AppCompatActivity {
     }
 
     /**
+     * Called onClick of R.id.b_post_update_comments (labeled "update comments")
+     */
+    public void updateComments(View view) {
+        // TODO: fill in with implemented parser
+        if (comments.size() == 0) {
+            // fetch all comments
+        } else {
+            // just update comments
+        }
+    }
+
+    /**
      * Add a comment to the RecyclerView.
      *
      * @param comment the new comment.
