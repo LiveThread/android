@@ -38,7 +38,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         Post post = mPosts.get(position);
         TextView tvPostTitle = holder.mPostTitleView;
         // TODO: change to post.getTitle();
-        tvPostTitle.setText(post.getID());
+        tvPostTitle.setText(post.getTitle());
         // TODO: add more fields
 
         holder.mItem = post;

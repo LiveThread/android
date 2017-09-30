@@ -85,7 +85,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 //        }
 
         // double unescape
-        content.setText(Html.fromHtml(Html.fromHtml(comment.getBody()).toString()));
+        content.setText(Html.fromHtml(comment.getBody()).toString());
     }
 
     // Returns the total count of items in the list
