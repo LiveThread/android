@@ -6,6 +6,8 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
+import guru.nickthompson.redditapi.Comment;
+
 /**
  * Created by williamreed on 9/29/17.
  * <p>
@@ -14,10 +16,10 @@ import java.util.ArrayList;
  * progress tracking is Integer<br/>
  * response is ArrayList<PostComment><br/>
  */
-public class DelayRefreshTask extends AsyncTask<Void, Integer, ArrayList<PostComment>> {
+public class DelayRefreshTask extends AsyncTask<Void, Integer, ArrayList<Comment>> {
     private float interval;
     private ProgressBar progress;
-    private AsyncCommandAndCallback<ArrayList<PostComment>> commandAndCallback;
+    private AsyncCommandAndCallback<ArrayList<Comment>> commandAndCallback;
 
     /**
      * Create a new DelayRefreshTask.
@@ -27,7 +29,7 @@ public class DelayRefreshTask extends AsyncTask<Void, Integer, ArrayList<PostCom
      * @param commandAndCallback the command and response for this task.
      */
     public DelayRefreshTask(long duration, ProgressBar progress,
-                            AsyncCommandAndCallback<ArrayList<PostComment>> commandAndCallback) {
+                            AsyncCommandAndCallback<ArrayList<Comment>> commandAndCallback) {
         this.progress = progress;
         this.commandAndCallback = commandAndCallback;
 
@@ -35,7 +37,7 @@ public class DelayRefreshTask extends AsyncTask<Void, Integer, ArrayList<PostCom
     }
 
     @Override
-    protected ArrayList<PostComment> doInBackground(Void... params) {
+    protected ArrayList<Comment> doInBackground(Void... params) {
         for (int i = 0; i < 1000; i++) {
             SystemClock.sleep((long) interval);
             publishProgress(i);
@@ -52,7 +54,7 @@ public class DelayRefreshTask extends AsyncTask<Void, Integer, ArrayList<PostCom
 
     // called on main UI thread wohoo
     @Override
-    protected void onPostExecute(ArrayList<PostComment> result) {
+    protected void onPostExecute(ArrayList<Comment> result) {
         commandAndCallback.callback(result);
     }
 
