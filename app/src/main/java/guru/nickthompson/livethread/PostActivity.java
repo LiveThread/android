@@ -80,6 +80,9 @@ public class PostActivity extends AppCompatActivity {
      * Responsible for repeatedly refreshing the comments.
      */
     private void repeatingRefresh() {
+        //initial run
+        new DelayRefreshTask(0, progressBar, new CommentRefresher()).execute();
+
         // helps run code on a given thread after a delay & periodically
         refreshHandler = new Handler();
 
@@ -90,6 +93,8 @@ public class PostActivity extends AppCompatActivity {
 
                 if (refresh) {
                     refreshHandler.postDelayed(this, DELAY);
+                } else {
+                    Log.d(TAG, "refreshing cancelled");
                 }
             }
         };
