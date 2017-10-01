@@ -4,6 +4,9 @@ LiveThread for Android is an Application that turns standard Reddit threads into
 
 Made for Husky Hacks 3 in 36 hours.
 
+## Download
+[Play Store](https://play.google.com/store/apps/details?id=guru.nickthompson.livethread)
+
 ## Technology
 Android SDK, Reddit API, Google GSON, Java
 

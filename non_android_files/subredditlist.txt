@@ -1,0 +1,124 @@
+SPORTS:
+/r/soccer
+	team threads:
+	/r/lcfc
+	/r/liverpoolfc
+	/r/reddevils
+	/r/gunners
+	/r/watford_fc
+	/r/coys
+	/r/mcfc
+	/r/burnley
+	/r/nufc
+	/r/wbafootball
+	/r/htafc
+	/r/saintsfc
+	/r/stokecityfc
+	/r/brightonhovealbion
+	/r/hammers
+	/r/everton
+	/r/swanseacity
+	/r/afcbournemouth
+	/r/crystalpalace
+	/r/barca
+	/r/realmadrid
+	/r/fcbayern
+/r/NFL
+	/r/nygiants
+	/r/nyjets
+	/r/patriots
+	/r/saints
+	/r/chicagobears
+	/r/steelers
+	/r/falcons
+	/r/seahawks
+	/r/greenbaypackers
+	/r/miamidolphins
+	/r/buffalobills
+	/r/bengals
+	/r/browns
+	/r/losangelesrams
+	/r/ravens
+	/r/cowboys
+	/r/texans
+	/r/tennesseetitans
+	/r/detroitlions
+	/r/jaguars
+	/r/minnesotavikings
+	/r/panthers
+	/r/49ers
+	/r/eagles
+	/r/chargers
+	/r/buccaneers
+	/r/oaklandraiders
+	/r/colts
+	/r/redskins
+	/r/kansascitycheifs
+	/r/denverbroncos
+	/r/azcardinals
+/r/NBA
+	/r/nyknicks
+	/r/sixers
+	/r/lakers
+	/r/bostonceltics
+	/r/denvernuggets
+	/r/clevlandcavs
+	/r/thunder
+	/r/suns
+	/r/ripcity
+	/r/nbaspurs
+	/r/timberwolves
+	/r/mavericks
+	/r/atlantahawks
+	/r/gonets
+	/r/charlottehornets
+	/r/chicagobulls
+	/r/pacers
+	/r/heat
+	/r/detroitpistons
+	/r/mkebucks
+	/r/orlandomagic
+	/r/torontoraptors
+	/r/washingtonwizards
+	/r/utahjazz
+	/r/kings
+	/r/warriors
+	/r/rockets
+	/r/laclippers
+	/r/nolapelicans
+	/r/orlandomagic
+/r/mlb
+/r/hockey
+/r/tennis
+/r/CFB
+/r/collegebasketball
+/r/golf
+/r/olympics
+
+NEWS:
+/r/news
+/r/worldnews
+/r/usnews
+/r/politics
+/r/truenews
+
+ESPORTS:
+/r/smashbros
+/r/globaloffensive
+/r/leagueoflegends
+/r/dota2
+/r/starcraft
+/r/smite
+/r/codcompetitive
+/r/hearthstone
+/r/worldoftanks
+/r/HeroesOfTheStorm
+/r/fighters
+/r/competitiveoverwatch
+/r/rocketleague
+
+OTHER/META:
+/r/announcements
+/r/askreddit
+/r/wallstreetbets
+/r/live
