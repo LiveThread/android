@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,10 +41,11 @@ public class PostActivity extends AppCompatActivity {
 
     private Handler refreshHandler;
     private Runnable refreshRunnable;
-    private volatile AtomicBoolean runRefresh = new AtomicBoolean(true);
+    private AtomicBoolean runRefresh = new AtomicBoolean(true);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
@@ -69,11 +69,13 @@ public class PostActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        Log.d(TAG, "onStop");
         super.onStop();
     }
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
 
         cancelRefresh();
@@ -81,7 +83,15 @@ public class PostActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.d(TAG, "onResume");
         super.onResume();
+
+        // means onCreate was skipped (maybe phone woke up or something)
+        // restart the refresher
+        if (!runRefresh.get()) {
+            runRefresh.set(true);
+            initializeRepeatingRefresh();
+        }
     }
 
     /**
