@@ -16,46 +16,57 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:onClick="animate"
-        android:padding="15dp"
-        app:srcCompat="@raw/logo" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="LiveThread"
-        android:textSize="48sp" />
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:onClick="animate"
+                android:padding="15dp"
+                app:srcCompat="@raw/logo" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="for Reddit"
-        android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="LiveThread"
+                android:textSize="48sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:padding="50dp"
-        android:text="Made for Husky Hacks 3 by William Reed and Nick Thompson"
-        android:textSize="20sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="for Reddit"
+                android:textSize="18sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:autoLink="web"
-        android:linksClickable="true"
-        android:text="https://github.com/inickt/LiveThread-Android\n\nhttp://williamreed.xyz\n\nhttp://nickthompson.guru" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="50dp"
+                android:text="Made for Husky Hacks 3 by William Reed and Nick Thompson"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autoLink="web"
+                android:gravity="center"
+                android:linksClickable="true"
+                android:text="https://github.com/inickt/LiveThread-Android\n\nhttp://williamreed.xyz\n\nhttp://nickthompson.guru" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
