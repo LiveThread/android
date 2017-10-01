@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,7 +18,7 @@ import guru.nickthompson.livethread.AsyncCommandAndCallback;
 import guru.nickthompson.livethread.DelayRefreshTask;
 import guru.nickthompson.livethread.R;
 import guru.nickthompson.livethread.SortCommentsByTime;
-import guru.nickthompson.livethread.TreeSetIndex;
+import guru.nickthompson.livethread.SortedHashedArrayList;
 import guru.nickthompson.livethread.adapters.CommentsAdapter;
 import guru.nickthompson.redditapi.Comment;
 import guru.nickthompson.redditapi.Post;
@@ -36,7 +35,7 @@ public class PostActivity extends AppCompatActivity {
     private TextView tvPostId;
     private TextView tvPostNew;
 
-    private TreeSetIndex<Comment> comments;
+    private SortedHashedArrayList<Comment> comments;
     private CommentsAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -130,7 +129,7 @@ public class PostActivity extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        comments = new TreeSetIndex<>(new SortCommentsByTime()); //TODO comparator
+        comments = new SortedHashedArrayList<Comment>(new SortCommentsByTime());
         // Create adapter passing in the sample user data
         adapter = new CommentsAdapter(this, comments);
         // Attach the adapter to the recyclerview to populate items
@@ -156,7 +155,6 @@ public class PostActivity extends AppCompatActivity {
             } else {
                 tvPostNew.setText("");
             }
-
         }
     }
 

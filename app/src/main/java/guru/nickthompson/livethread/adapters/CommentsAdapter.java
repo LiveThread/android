@@ -8,12 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeSet;
-
 import guru.nickthompson.livethread.R;
-import guru.nickthompson.livethread.TreeSetIndex;
+import guru.nickthompson.livethread.SortedHashedArrayList;
 import guru.nickthompson.redditapi.Comment;
 
 /**
@@ -39,10 +35,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         }
     }
 
-    private TreeSetIndex<Comment> comments;
+    private SortedHashedArrayList<Comment> comments;
     private Context context;
 
-    public CommentsAdapter(Context context, TreeSetIndex<Comment> comments) {
+    public CommentsAdapter(Context context, SortedHashedArrayList<Comment> comments) {
         this.context = context;
         this.comments = comments;
     }
