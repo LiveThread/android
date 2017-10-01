@@ -11,6 +11,9 @@ import guru.nickthompson.livethread.fragments.PostListFragment;
 import guru.nickthompson.livethread.fragments.SelectSubredditFragment;
 import guru.nickthompson.redditapi.Post;
 
+/**
+ * Handles choosing a subreddit and navigating to a certain post from the sub through fragments.
+ */
 public class SubredditActivity extends AppCompatActivity implements SelectSubredditFragment.OnFragmentInteractionListener, PostListFragment.OnListFragmentInteractionListener {
 
     @Override
@@ -19,9 +22,11 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
         setContentView(R.layout.activity_subreddit);
 
         // set up initial fragment to be the subreddit selector
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.fl_subreddit, new SelectSubredditFragment());
-        ft.commit();
+        if (savedInstanceState == null) {
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.fl_subreddit, new SelectSubredditFragment());
+            ft.commit();
+        }
     }
 
     /**
@@ -32,6 +37,7 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
     @Override
     public void onSubredditClick(String subredditName) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
         ft.replace(R.id.fl_subreddit, PostListFragment.newInstance(subredditName))
                 .addToBackStack(null);
         ft.commit();
@@ -55,6 +61,7 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
     @Override
     public void onBackPressed() {
         FragmentManager fm = getFragmentManager();
+
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
         } else {
