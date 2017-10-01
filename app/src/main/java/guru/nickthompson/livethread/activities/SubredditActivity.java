@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -29,6 +30,12 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.fl_subreddit, new SelectSubredditFragment());
             ft.commit();
+
+            // setup action bar
+            Toolbar toolbar = (Toolbar) findViewById(R.id.t_subreddit);
+            toolbar.setTitle("LiveThread");
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.mipmap.ic_launcher);
         }
     }
 

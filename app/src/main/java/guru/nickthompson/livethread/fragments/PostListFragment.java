@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +53,14 @@ public class PostListFragment extends Fragment {
         if (getArguments() != null) {
             mSubredditName = getArguments().getString(ARG_SUBREDDIT_NAME);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.t_subreddit);
+        toolbar.setTitle("/r/" + mSubredditName);
     }
 
     @Override

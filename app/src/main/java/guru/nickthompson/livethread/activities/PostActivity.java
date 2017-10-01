@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class PostActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO: try checking savedInstanceState
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
@@ -65,6 +67,12 @@ public class PostActivity extends AppCompatActivity {
 
         Log.d(TAG, "calling repeating refresh");
         initializeRepeatingRefresh();
+
+        // setup action bar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.t_post);
+        toolbar.setTitle("LiveThread");
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
     }
 
     @Override
