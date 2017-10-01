@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,6 +18,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import guru.nickthompson.livethread.AsyncCommandAndCallback;
 import guru.nickthompson.livethread.DelayRefreshTask;
 import guru.nickthompson.livethread.R;
+import guru.nickthompson.livethread.SortCommentsByTime;
+import guru.nickthompson.livethread.SortedHashedArrayList;
 import guru.nickthompson.livethread.adapters.CommentsAdapter;
 import guru.nickthompson.redditapi.Comment;
 import guru.nickthompson.redditapi.Post;
@@ -35,7 +36,7 @@ public class PostActivity extends AppCompatActivity {
     private TextView tvPostId;
     private TextView tvPostNew;
 
-    private ArrayList<Comment> comments;
+    private SortedHashedArrayList<Comment> comments;
     private CommentsAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -153,7 +154,7 @@ public class PostActivity extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        comments = new ArrayList<>();
+        comments = new SortedHashedArrayList<Comment>(new SortCommentsByTime());
         // Create adapter passing in the sample user data
         adapter = new CommentsAdapter(this, comments);
         // Attach the adapter to the recyclerview to populate items
@@ -179,7 +180,6 @@ public class PostActivity extends AppCompatActivity {
             } else {
                 tvPostNew.setText("");
             }
-
         }
     }
 
@@ -189,8 +189,12 @@ public class PostActivity extends AppCompatActivity {
      * @param comment the new comment.
      */
     private void addComment(Comment comment) {
-        comments.add(0, comment);
-        adapter.notifyItemInserted(0);
+
+        if (!(this.comments.contains(comment))) {
+            int pos = this.comments.insert(comment);
+            this.adapter.notifyItemInserted(pos);
+        }
+
 
         if (this.layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
             recyclerView.smoothScrollToPosition(0);
@@ -205,11 +209,8 @@ public class PostActivity extends AppCompatActivity {
         @Override
         public ArrayList<Comment> command() {
             Log.d(TAG, "running command");
-            if (comments.size() == 0) {
-                return post.getAllComments();
-            } else {
-                return post.getCommentsAfter(comments.get(0).getID());
-            }
+            return post.getAllComments();
+
         }
 
         // TODO: this if statement is pointless, right?

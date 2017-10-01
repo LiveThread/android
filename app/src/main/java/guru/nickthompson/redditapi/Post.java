@@ -118,37 +118,4 @@ public class Post implements Serializable {
 
         return comments;
     }
-
-    /**
-     * Gets comments from the post only after the provided comment ID.
-     *
-     * @param commentID the unique Reddit ID of the comment in a post.
-     * @return an ArrayList of Comments newer than the given comment ID.
-     */
-    public ArrayList<Comment> getCommentsAfter(String commentID) {
-        ArrayList<Comment> allComments = this.getAllComments();
-        ArrayList<Comment> newComments = new ArrayList<>();
-
-//        String comments = "";
-//        for (Comment c : allComments) {
-//            comments += "\nID: " + c.getID() + "   User: " + c.getUsername() + "   Body: " + Html.fromHtml(c.getBody()).toString();
-//        }
-//        Log.d("getCommentAfter", comments);
-
-//        String newDebugComments = "";
-        for (int i = 0; i < allComments.size(); i++) {
-            if (allComments.get(i).getID().equals(commentID)) {
-//                newDebugComments += "\nMATCHES: ID: " + allComments.get(i).getID() + "   Body: " + Html.fromHtml(allComments.get(i).getBody()).toString() + "NEW COMMENTS:\n\n";
-                newComments = new ArrayList<>(allComments.subList(0, i));
-            }
-        }
-
-//        for (Comment c : newComments) {
-//            newDebugComments += "\nNEW COMMENT ID: " + c.getID() + "   User: " + c.getUsername() + "   Body: " + Html.fromHtml(c.getBody()).toString();
-//        }
-//
-//        Log.d("getCommentAfterNew",  newDebugComments);
-
-        return newComments;
-    }
 }

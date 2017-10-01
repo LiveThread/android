@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import guru.nickthompson.livethread.R;
+import guru.nickthompson.livethread.SortedHashedArrayList;
 import guru.nickthompson.redditapi.Comment;
 
 /**
@@ -35,10 +34,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         }
     }
 
-    private List<Comment> comments;
+    private SortedHashedArrayList<Comment> comments;
     private Context context;
 
-    public CommentsAdapter(Context context, List<Comment> comments) {
+    public CommentsAdapter(Context context, SortedHashedArrayList<Comment> comments) {
         this.context = context;
         this.comments = comments;
     }
