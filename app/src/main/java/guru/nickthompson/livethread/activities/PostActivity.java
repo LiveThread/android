@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -72,7 +73,13 @@ public class PostActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.t_post);
         toolbar.setTitle("LiveThread");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

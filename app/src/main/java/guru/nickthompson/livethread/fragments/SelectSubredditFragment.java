@@ -46,6 +46,7 @@ public class SelectSubredditFragment extends Fragment implements View.OnClickLis
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.t_subreddit);
         toolbar.setTitle("LiveThread");
+        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
     }
 
     /**

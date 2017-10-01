@@ -58,9 +58,10 @@ public class PostListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        
+
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.t_subreddit);
         toolbar.setTitle("/r/" + mSubredditName);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class PostListFragment extends Fragment {
             Context context = view.getContext();
             recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            new AsyncCACRunner<ArrayList<Post>>(new PostFetcher(mSubredditName)).execute();
+            new AsyncCACRunner<>(new PostFetcher(mSubredditName)).execute();
         }
 
         return view;

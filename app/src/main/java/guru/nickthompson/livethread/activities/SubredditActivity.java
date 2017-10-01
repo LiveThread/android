@@ -36,6 +36,12 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
             toolbar.setTitle("LiveThread");
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
         }
     }
 
@@ -80,6 +86,7 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
         FragmentManager fm = getFragmentManager();
 
         if (fm.getBackStackEntryCount() > 0) {
+            // for some reason this never gets executed.
             fm.popBackStack();
         } else {
             super.onBackPressed();
