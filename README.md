@@ -2,7 +2,7 @@
 
 LiveThread for Android is an Application that turns standard Reddit threads into live threads. After selecting a subreddit and a particular post, all new comments will stream onto the screen.
 
-Made for Husky Hacks 3 in 36 hours.
+Made for Husky Hacks 3 in 36 hours. This branch, 'husky_hacks' is the state of the repository after this competition.
 
 ## Download
 [Play Store](https://play.google.com/store/apps/details?id=guru.nickthompson.livethread)
