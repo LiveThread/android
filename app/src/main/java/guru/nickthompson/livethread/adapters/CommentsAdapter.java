@@ -3,10 +3,13 @@ package guru.nickthompson.livethread.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 
 import guru.nickthompson.livethread.R;
 import guru.nickthompson.livethread.SortedHashedArrayList;
@@ -68,10 +71,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
         // Set item views based on your views and data model
         TextView username = viewHolder.tvUsername;
-        username.setText(comment.getUsername());
+        username.setText("/u/" + comment.getUsername());
 
         TextView date = viewHolder.tvDate;
-        date.setText(comment.getTimeStamp().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, h:mm a"); //Or whatever format fits best your needs.
+        date.setText(sdf.format(comment.getTimeStamp()));
+
 
         TextView content = viewHolder.tvContent;
 
@@ -82,8 +87,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 //            content.setText(Html.fromHtml(comment.getBody())) ;// or for older api
 //        }
 
-        // double unescape
-        content.setText(Html.fromHtml(comment.getBody()).toString());
+        content.setText(Html.fromHtml(comment.getBody()).toString().trim());
     }
 
     // Returns the total count of items in the list

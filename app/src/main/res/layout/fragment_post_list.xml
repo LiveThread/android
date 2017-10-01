@@ -6,6 +6,7 @@
     android:name="guru.nickthompson.livethread.PostListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="vertical"
     app:layoutManager="LinearLayoutManager"
     tools:context="guru.nickthompson.livethread.fragments.PostListFragment"
     tools:listitem="@layout/item_post" />

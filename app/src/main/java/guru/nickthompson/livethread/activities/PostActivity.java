@@ -34,7 +34,6 @@ public class PostActivity extends AppCompatActivity {
     private static final String TAG = "LT.PostActivity";
 
     private Post post;
-    private TextView tvPostId;
     private TextView tvPostNew;
 
     private SortedHashedArrayList<Comment> comments;
@@ -55,13 +54,10 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         // TODO: maybe abstract this a bit so we can just pass it into some builder
-        tvPostId = (TextView) findViewById(R.id.tv_post_id);
 
         tvPostNew = (TextView) findViewById(R.id.tv_post_new);
 
         post = (Post) getIntent().getSerializableExtra("POST");
-        tvPostId = (TextView) findViewById(R.id.tv_post_id);
-        tvPostId.setText("Post ID: " + this.post.getID());
 
         setupComments();
 
@@ -73,7 +69,7 @@ public class PostActivity extends AppCompatActivity {
 
         // setup action bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.t_post);
-        toolbar.setTitle("LiveThread");
+        toolbar.setTitle(post.getTitle());
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -82,6 +78,8 @@ public class PostActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+
     }
 
     @Override
@@ -177,7 +175,7 @@ public class PostActivity extends AppCompatActivity {
             pos++;
             //TODO: display in TextView the position
             if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
-                tvPostNew.setText(String.valueOf(pos));
+                tvPostNew.setText(" " + String.valueOf(pos) + " ");
             } else {
                 tvPostNew.setText("");
             }
