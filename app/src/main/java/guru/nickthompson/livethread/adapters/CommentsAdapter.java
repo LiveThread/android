@@ -19,7 +19,6 @@ import guru.nickthompson.redditapi.Comment;
  * Adapter for intermediary between data and recycler view
  * thanks code path
  */
-
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -30,9 +29,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tvUsername = (TextView) itemView.findViewById(R.id.tv_post_username);
-            tvDate = (TextView) itemView.findViewById(R.id.tv_post_date);
-            tvContent = (TextView) itemView.findViewById(R.id.tv_post_content);
+            tvUsername = itemView.findViewById(R.id.tv_post_username);
+            tvDate = itemView.findViewById(R.id.tv_post_date);
+            tvContent = itemView.findViewById(R.id.tv_post_content);
         }
     }
 

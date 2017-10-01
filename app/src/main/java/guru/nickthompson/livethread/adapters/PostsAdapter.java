@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import guru.nickthompson.livethread.R;
@@ -36,14 +37,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Post post = mPosts.get(position);
+
         TextView tvPostTitle = holder.mPostTitleView;
-        // TODO: change to post.getTitle();
         tvPostTitle.setText(post.getTitle());
-        // TODO: add more fields
+
+        TextView tvScore = holder.mScoreView;
+        tvScore.setText(String.valueOf(post.getScore() + " votes"));
+
+        TextView tvNumComments = holder.mNumComments;
+        tvNumComments.setText(" • " + String.valueOf(post.getNumComments()) + " comments");
+
+        TextView tvAuthor = holder.mAuthor;
+        tvAuthor.setText("/u/" + post.getAuthor());
+
+        TextView tvPostDate = holder.mPostDate;
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, h:mm a"); //Or whatever format fits best your needs.
+        tvPostDate.setText(" on " + sdf.format(post.getCreated()));
 
         holder.mItem = post;
 
-        //TODO: on click load comments
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,13 +76,20 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mPostTitleView;
+        public final TextView mScoreView;
+        public final TextView mNumComments;
+        public final TextView mAuthor;
+        public final TextView mPostDate;
         public Post mItem;
-        // TODO: add more fields
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mPostTitleView = view.findViewById(R.id.tv_item_post_title);
+            mScoreView = view.findViewById(R.id.tv_item_post_score);
+            mNumComments = view.findViewById(R.id.tv_item_post_num_comments);
+            mPostDate = view.findViewById(R.id.tv_item_post_date);
+            mAuthor = view.findViewById(R.id.tv_item_post_author);
         }
     }
 }
