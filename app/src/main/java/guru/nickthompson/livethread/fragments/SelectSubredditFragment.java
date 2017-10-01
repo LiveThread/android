@@ -55,9 +55,15 @@ public class SelectSubredditFragment extends Fragment implements View.OnClickLis
     private void setupSuggestedSubreddits() {
         subreddits = new ArrayList<Subreddit>();
         /// TODO: populate
-        subreddits.add(new Subreddit("WorldNews", "Major news from around the world"));
-        subreddits.add(new Subreddit("NFL", "NFL takes on Reddit"));
-        subreddits.add(new Subreddit("AskReddit", "What does reddit think?"));
+        subreddits.add(new Subreddit("Soccer", "The back page of the internet"));
+        subreddits.add(new Subreddit("NFL", "National Football League Discussion"));
+        subreddits.add(new Subreddit("NBA", "National Basketball Association"));
+        subreddits.add(new Subreddit("Hockey", "the best game on earth"));
+        subreddits.add(new Subreddit("Tennis", "Tennis News & Discussion"));
+        subreddits.add(new Subreddit("CFB", "The Internet's Tailgate"));
+        subreddits.add(new Subreddit("News", "All news, US and international"));
+        subreddits.add(new Subreddit("WorldNews", "The Worlds News"));
+        subreddits.add(new Subreddit("Politics", "Political Discussion"));
 
         SubredditAdapter adapter = new SubredditAdapter(getContext(), subreddits);
         mListView.setAdapter(adapter);
