@@ -1,13 +1,14 @@
 package guru.nickthompson.redditapi;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Represents a comment in a Reddit {@link Post}.
  */
 public class Comment {
     private final Post post;
-    private final String commentID;
+    private final String id;
     private final String username;
     private final Date timestamp;
     private final String body;
@@ -16,14 +17,14 @@ public class Comment {
      * Creates a comment.
      *
      * @param post the {@link Post} this comment is in.
-     * @param commentID the ID of the comment.
+     * @param id the ID of the comment.
      * @param username the username of the user that posted the comment.
      * @param timestamp the time the comment was originally posted.
      * @param body the content of the comment.
      */
-    public Comment(Post post, String commentID, String username, Date timestamp, String body) {
+    public Comment(Post post, String id, String username, Date timestamp, String body) {
         this.post = post;
-        this.commentID = commentID;
+        this.id = id;
         this.username = username;
         this.timestamp = timestamp;
         this.body = body;
@@ -33,7 +34,7 @@ public class Comment {
      * @return the ID of this comment.
      */
     public String getID() {
-        return this.commentID;
+        return this.id;
     }
 
     /**
@@ -55,5 +56,30 @@ public class Comment {
      */
     public String getBody() {
         return this.body;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.id);
+    }
+
+    /**
+     * Comments are equal if their string ID is equal.
+     *
+     * @param o another Object
+     * @return if this comment is equal to the other object
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof Comment)) {
+            return false;
+        } else {
+            Comment c = (Comment) o;
+            return this.id.equals(c.getID());
+        }
     }
 }

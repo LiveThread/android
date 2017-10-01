@@ -62,7 +62,7 @@ public class UrlUtils {
      * @return a String representation of the full URL.
      */
     protected static String getPostUrl(String postID) {
-        return "https://www.reddit.com/comments/" + postID + ".json?sort=new&raw_json=1";
+        return "https://www.reddit.com/comments/" + postID + ".json?sort=new&raw_json=1&limit=500";
     }
 
     /**
