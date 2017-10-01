@@ -24,8 +24,8 @@
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:onClick="animate"
-        app:srcCompat="@raw/logo"
-        android:padding="15dp"/>
+        android:padding="15dp"
+        app:srcCompat="@raw/logo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,4 +49,13 @@
         android:padding="50dp"
         android:text="Made for Husky Hacks 3 by William Reed and Nick Thompson"
         android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:text="https://github.com/inickt/LiveThread-Android\n\n\nhttp://williamreed.xyz\n\n\nhttp://nickthompson.guru" />
 </LinearLayout>
