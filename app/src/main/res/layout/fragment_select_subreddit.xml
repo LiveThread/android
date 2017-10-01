@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:hint="Enter subreddit name"
         android:inputType="text|textNoSuggestions"
-        android:selectAllOnFocus="false"
-        android:singleLine="true" />
+        android:maxLines="1"
+        android:selectAllOnFocus="false" />
 
     <Button
         android:id="@+id/b_select_subreddit"
@@ -25,12 +25,16 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/darker_gray" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Popular Live Thread Subreddits" />
+        android:text="Popular Live Thread Subreddits"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
 
     <ListView
         android:id="@+id/lv_select_subreddit_popular"

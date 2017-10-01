@@ -1,9 +1,9 @@
 package guru.nickthompson.livethread.activities;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,11 +35,18 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
             Toolbar toolbar = (Toolbar) findViewById(R.id.t_subreddit);
             toolbar.setTitle("LiveThread");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+            toolbar.setNavigationIcon(R.mipmap.ic_launcher_circle);
+
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onBackPressed();
+                    FragmentManager fm = getSupportFragmentManager();
+                    if (fm.getBackStackEntryCount() > 0) {
+                        fm.popBackStack();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                        startActivity(intent);
+                    }
                 }
             });
         }
@@ -83,10 +90,9 @@ public class SubredditActivity extends AppCompatActivity implements SelectSubred
      */
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         if (fm.getBackStackEntryCount() > 0) {
-            // for some reason this never gets executed.
             fm.popBackStack();
         } else {
             super.onBackPressed();
