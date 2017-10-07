@@ -16,11 +16,11 @@ public class Comment {
     /**
      * Creates a comment.
      *
-     * @param post the {@link Post} this comment is in.
-     * @param id the ID of the comment.
-     * @param username the username of the user that posted the comment.
+     * @param post      the {@link Post} this comment is in.
+     * @param id        the ID of the comment.
+     * @param username  the username of the user that posted the comment.
      * @param timestamp the time the comment was originally posted.
-     * @param body the content of the comment.
+     * @param body      the content of the comment.
      */
     public Comment(Post post, String id, String username, Date timestamp, String body) {
         this.post = post;

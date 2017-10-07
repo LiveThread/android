@@ -147,6 +147,7 @@ public class PostActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.rv_post_comments);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
 
         // add a horizontal line between items
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
