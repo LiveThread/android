@@ -3,7 +3,6 @@ package guru.nickthompson.livethread.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +20,15 @@ import guru.nickthompson.redditapi.Comment;
  * Adapter for intermediary between data and recycler view
  * thanks code path
  */
-public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
-    public class ViewHolder extends RecyclerView.ViewHolder {
+public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static final int TYPE_HEADER = 1;
 
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername;
         public TextView tvDate;
         public TextView tvContent;
 
-        public ViewHolder(View itemView) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
 
             tvUsername = itemView.findViewById(R.id.tv_post_username);
@@ -37,12 +37,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         }
     }
 
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     private SortedHashedArrayList<Comment> comments;
+    private View header;
     private Context context;
 
-    public CommentsAdapter(Context context, SortedHashedArrayList<Comment> comments) {
+
+    //https://stackoverflow.com/questions/26448717/android-5-0-add-header-footer-to-a-recyclerview
+    /// TODO :https://gist.github.com/willblaschko/1113be1eaff048a6ed14
+    public CommentsAdapter(Context context, SortedHashedArrayList<Comment> comments, View header) {
         this.context = context;
         this.comments = comments;
+        this.header = header;
     }
 
     private Context getContext() {
@@ -51,48 +62,75 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     // Usually involves inflating a layout from XML and returning the holder
     @Override
-    public CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
+        if (viewType == TYPE_HEADER) {
+            View headerView = inflater.inflate(R.layout.item_post_header, parent, false);
+            HeaderViewHolder viewHolder = new HeaderViewHolder(headerView);
+            return viewHolder;
+        }
+
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.item_comment, parent, false);
+        View commentView = inflater.inflate(R.layout.item_comment, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        ItemViewHolder viewHolder = new ItemViewHolder(commentView);
         return viewHolder;
     }
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(CommentsAdapter.ViewHolder viewHolder, int position) {
-        // Get the data model based on position
-        Comment comment = comments.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        if (viewHolder instanceof ItemViewHolder) {
+            ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
 
-        // Set item views based on your views and data model
-        TextView username = viewHolder.tvUsername;
-        username.setText("/u/" + comment.getUsername());
+            // Get the data model based on position
+            Comment comment = comments.get(position);
 
-        TextView date = viewHolder.tvDate;
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, h:mm a"); //Or whatever format fits best your needs.
-        date.setText(sdf.format(comment.getTimeStamp()));
+            // Set item views based on your views and data model
+            TextView username = itemViewHolder.tvUsername;
+            username.setText("/u/" + comment.getUsername());
+
+            TextView date = itemViewHolder.tvDate;
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, h:mm a"); //Or whatever format fits best your needs.
+            date.setText(sdf.format(comment.getTimeStamp()));
 
 
-        TextView content = viewHolder.tvContent;
+            TextView content = itemViewHolder.tvContent;
 
-        // TODO: update to respect api and deprecation
+            // TODO: update to respect api and deprecation
 //        if (Build.VERSION.SDK_INT >= 24) {
 //            content.setText(Html.fromHtml(comment.getBody(), Html.FROM_HTML_MODE_LEGACY)); // for 24 api and more
 //        } else {
 //            content.setText(Html.fromHtml(comment.getBody())) ;// or for older api
 //        }
 
-        content.setText(Html.fromHtml(comment.getBody()).toString().trim());
+            content.setText(Html.fromHtml(comment.getBody()).toString().trim());
+        } else if (viewHolder instanceof HeaderViewHolder) {
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
+
+            // TODO: adapt and overcome ralphy
+        }
     }
 
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return comments.size();
+        // adding one because of the expected singular header
+        // TODO: maybe make this more dynamic for the header
+        // or possibly use a list of headers
+        // maybe an extendable class that implementes headers for you?
+        return comments.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0)
+            return TYPE_HEADER;
+        else
+            return super.getItemViewType(position);
+
     }
 }
