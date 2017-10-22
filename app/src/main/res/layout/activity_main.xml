@@ -6,18 +6,12 @@
     android:layout_height="match_parent"
     android:layout_margin="15dp"
     android:orientation="vertical"
-    tools:context="guru.nickthompson.livethread.activities.MainActivity">
-
-    <EditText
-        android:id="@+id/et_post_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Post Id ..." />
+    tools:context="io.github.livethread.activities.MainActivity">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="loadPost"
-        android:text="Load Post" />
+        android:onClick="login"
+        android:text="Login" />
 
 </LinearLayout>

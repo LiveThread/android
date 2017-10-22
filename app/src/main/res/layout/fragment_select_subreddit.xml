@@ -6,7 +6,7 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingTop="20dp"
-    tools:context="guru.nickthompson.livethread.fragments.SelectSubredditFragment">
+    tools:context="io.github.livethread.fragments.SelectSubredditFragment">
 
     <EditText
         android:id="@+id/et_select_subreddit"

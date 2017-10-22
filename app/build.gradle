@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "guru.nickthompson.livethread"
+        applicationId "io.github.livethread"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -17,21 +17,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // recycler view
+    // GSON
+
+
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-
-    // recycler view
     compile 'com.android.support:recyclerview-v7:26.+'
-
-    // GSON
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
-
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'net.dean.jraw:JRAW:0.9.0'
+    testCompile 'junit:junit:4.12'
 }

@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     android:scrollbars="vertical"
     app:layoutManager="LinearLayoutManager"
-    tools:context="guru.nickthompson.livethread.fragments.PostListFragment"
+    tools:context="io.github.livethread.fragments.PostListFragment"
     tools:listitem="@layout/item_post" />

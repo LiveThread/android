@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="guru.nickthompson.livethread.activities.PostActivity">
+    tools:context="io.github.livethread.activities.PostActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/t_post"
