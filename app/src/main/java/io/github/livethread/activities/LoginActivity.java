@@ -42,7 +42,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                System.out.println(url);
                 if (url.contains("code=")) {
+                    System.out.println("contains code");
                     webView.stopLoading();
                     setResult(RESULT_OK, new Intent().putExtra("RESULT_URL", url));
                     finish();
