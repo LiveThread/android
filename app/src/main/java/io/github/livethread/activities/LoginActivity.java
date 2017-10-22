@@ -3,7 +3,6 @@ package io.github.livethread.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.webkit.WebResourceRequest;
@@ -11,39 +10,23 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import net.dean.jraw.RedditClient;
 import net.dean.jraw.auth.AuthenticationManager;
-import net.dean.jraw.auth.RefreshTokenHandler;
-import net.dean.jraw.auth.TokenStore;
-import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthHelper;
 
 import java.net.URL;
 
-import io.github.livethread.AndroidTokenStore;
+import io.github.livethread.LiveThreadApplication;
 import io.github.livethread.R;
 
 public class LoginActivity extends AppCompatActivity {
     WebView webView;
-    private static final String CLIENT_ID = "ZNyXFcDBJ0TNBQ";
-    // URL needs to be the same as the one in the reddit app in prefs
-    private static final String REDIRECT_URL = "https://github.com/inickt/LiveThread-Android";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        RedditClient redditClient = new RedditClient(UserAgent.of("android",
-                "io.github.livethread", "v0.0.1", "rillweed"));
-        TokenStore store = new AndroidTokenStore(
-                PreferenceManager.getDefaultSharedPreferences(this));
-        RefreshTokenHandler refreshTokenHandler = new RefreshTokenHandler(store, redditClient);
-
-        AuthenticationManager manager = AuthenticationManager.get();
-        manager.init(redditClient, refreshTokenHandler);
 
         webView = (WebView) findViewById(R.id.wv_login);
         webView.setWebViewClient(new WebViewClient() {
@@ -78,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private URL getAuthorizationUrl() {
         OAuthHelper oAuthHelper = AuthenticationManager.get().getRedditClient().getOAuthHelper();
-        Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
+        Credentials credentials = ((LiveThreadApplication) getApplication()).getCredentials();
         String[] scopes = {"identity", "edit", "flair", "mysubreddits", "read", "save", "subscribe", "vote"};
         URL url = oAuthHelper.getAuthorizationUrl(credentials, true, true, scopes);
         System.out.println(url.toString());
