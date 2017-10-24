@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="15dp"
     android:orientation="vertical"
-    tools:context="io.github.livethread.activities.MainActivity">
+    tools:context="io.github.livethread.activities.MainActivityOld">
 
     <TextView
         android:id="@+id/tv_main_auth_state"

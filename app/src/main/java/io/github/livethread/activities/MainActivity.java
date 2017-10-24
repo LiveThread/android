@@ -1,207 +1,138 @@
 package io.github.livethread.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
-import net.dean.jraw.RedditClient;
-import net.dean.jraw.auth.AuthenticationManager;
-import net.dean.jraw.auth.AuthenticationState;
-import net.dean.jraw.auth.NoSuchTokenException;
-import net.dean.jraw.auth.RefreshTokenHandler;
-import net.dean.jraw.auth.TokenStore;
-import net.dean.jraw.http.UserAgent;
-import net.dean.jraw.http.oauth.Credentials;
-import net.dean.jraw.http.oauth.OAuthData;
-import net.dean.jraw.http.oauth.OAuthException;
-import net.dean.jraw.http.oauth.OAuthHelper;
-
-import io.github.livethread.AndroidTokenStore;
-import io.github.livethread.AsyncCACRunner;
-import io.github.livethread.AsyncCommandAndCallback;
-import io.github.livethread.LiveThreadApplication;
 import io.github.livethread.R;
+import io.github.livethread.fragments.PostListFragment;
+import io.github.livethread.fragments.SelectSubredditFragment;
+import io.github.livethread.redditapi.Post;
 
 /**
- * Main activity upon load.
- * Basically a testing activity it seems.
+ * Handles choosing a subreddit and navigating to a certain post from the sub through fragments.
  */
-public class MainActivity extends AppCompatActivity {
-    private TextView tvAuthState;
-    private TextView tvName;
-    private TextView tvCommentKarma;
-    private TextView tvLinkKarma;
-    private RedditClient redditClient;
+public class MainActivity extends AppCompatActivity implements SelectSubredditFragment.OnFragmentInteractionListener,
+        PostListFragment.OnListFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_subreddit);
 
-        // init reddit stuff
-        redditClient = new RedditClient(UserAgent.of("android",
-                "io.github.livethread", "v0.0.1", "rillweed"));
-        TokenStore store = new AndroidTokenStore(
-                PreferenceManager.getDefaultSharedPreferences(this));
-        RefreshTokenHandler refreshTokenHandler = new RefreshTokenHandler(store, redditClient);
+        // set up initial fragment to be the subreddit selector
+        if (savedInstanceState == null) {
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.fl_subreddit, new SelectSubredditFragment());
+            ft.commit();
 
-        AuthenticationManager manager = AuthenticationManager.get();
-        manager.init(redditClient, refreshTokenHandler);
+            // setup action bar
+            Toolbar toolbar = (Toolbar) findViewById(R.id.t_subreddit);
+            toolbar.setTitle("LiveThread");
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.mipmap.ic_launcher_circle);
 
-        // check auth state and display it
-        AuthenticationState authState = AuthenticationManager.get().checkAuthState();
-        tvAuthState = (TextView) findViewById(R.id.tv_main_auth_state);
-        tvAuthState.setText(authState.toString());
-        tvName = (TextView) findViewById(R.id.tv_main_name);
-        tvCommentKarma = (TextView) findViewById(R.id.tv_main_comment_karma);
-        tvLinkKarma = (TextView) findViewById(R.id.tv_main_link_karma);
-
-        if (authState == AuthenticationState.NEED_REFRESH) {
-            new AsyncCACRunner<>(new AuthenticateRefresh(((LiveThreadApplication) getApplication())
-                    .getCredentials())).execute();
-        } else if (authState == AuthenticationState.NONE) {
-            // TODO: what should the actual request code be?
-            // TODO: should login be a fragment?
-            startActivityForResult(new Intent(this, LoginActivity.class), 1);
-        } else if (authState == AuthenticationState.READY) {
-            showUserData();
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager fm = getSupportFragmentManager();
+                    if (fm.getBackStackEntryCount() > 0) {
+                        fm.popBackStack();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
         }
     }
 
-    public static final int REQUEST_CODE = 1;
-
-    // gets called on success from the login activity.
+    /**
+     * Called when a subreddit is entered / clicked.
+     *
+     * @param subredditName name of the subreddit.
+     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("rq " + requestCode + " rc " + resultCode);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            String url = data.getStringExtra("RESULT_URL");
+    public void onSubredditClick(String subredditName) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        ft.replace(R.id.fl_subreddit, PostListFragment.newInstance(subredditName))
+                .addToBackStack(null);
+        ft.commit();
 
-            AsyncCACRunner<String> authAsync = new AsyncCACRunner<>(new Authenticate(url));
-            authAsync.execute();
-
+        // if keyboard is visible hide it
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
-
     /**
-     * Show some temporary user data so we know its working.
+     * Called on click of a Post.
+     *
+     * @param item the Post that was clicked.
      */
-    private void showUserData() {
-        new AsyncCACRunner<>(new BasicInfo()).execute();
+    @Override
+    public void onListFragmentInteraction(Post item) {
+        Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+        intent.putExtra("POST", item);
+        startActivity(intent);
     }
 
     /**
-     * Little CAC to help with off main thread networking.
+     * Handle back button returning to previous fragment (and activity).
      */
-    class Authenticate implements AsyncCommandAndCallback<String> {
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
 
-        private final String url;
-
-        /**
-         * New Authenticate CAC
-         *
-         * @param url the special url obtained from authorizing the app in a users profile
-         */
-        Authenticate(String url) {
-            this.url = url;
-        }
-
-        @Override
-        public String command() {
-            OAuthHelper oAuthHelper = AuthenticationManager.get().getRedditClient().getOAuthHelper();
-            OAuthData oAuthData = null;
-            try {
-                oAuthData = oAuthHelper.onUserChallenge(url,
-                        ((LiveThreadApplication) getApplication()).getCredentials());
-            } catch (OAuthException e) {
-                e.printStackTrace();
+        // go to the last fragment
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            // handle closing the drawer
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_main);
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
             }
-            AuthenticationManager.get().getRedditClient().authenticate(oAuthData);
-            AuthenticationManager.get().onAuthenticated(oAuthData);
-
-            return AuthenticationManager.get().getRedditClient().getAuthenticatedUser();
-        }
-
-        @Override
-        public void callback(String username) {
-            System.out.println("initial authentication");
-            Toast.makeText(getApplicationContext(), "Logged in as " + username, Toast.LENGTH_SHORT)
-                    .show();
-            AuthenticationState authState = AuthenticationManager.get().checkAuthState();
-            tvAuthState.setText(authState.toString());
-            showUserData();
         }
     }
 
-    /**
-     * CAC for handling authentication refresh
-     */
-    class AuthenticateRefresh implements AsyncCommandAndCallback<String> {
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-        private final Credentials credentials;
+        if (id == R.id.nav_main_profile) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
 
-        /**
-         * New Authenticate Refresh CAC
-         *
-         * @param credentials the credentials used to authenticate the user
-         */
-        AuthenticateRefresh(Credentials credentials) {
-            this.credentials = credentials;
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
         }
 
-        @Override
-        public String command() {
-            try {
-                AuthenticationManager.get().refreshAccessToken(((LiveThreadApplication) getApplication())
-                        .getCredentials());
-            } catch (NoSuchTokenException e) {
-                e.printStackTrace();
-            } catch (OAuthException e) {
-                e.printStackTrace();
-            }
-
-            return AuthenticationManager.get().getRedditClient().getAuthenticatedUser();
-        }
-
-        @Override
-        public void callback(String username) {
-            System.out.println("refresh authenitcation");
-            Toast.makeText(getApplicationContext(), "Logged in as " + username, Toast.LENGTH_SHORT).show();
-            AuthenticationState authState = AuthenticationManager.get().checkAuthState();
-            tvAuthState.setText(authState.toString());
-            showUserData();
-        }
-    }
-
-    /**
-     * CAC for getting basic user Data.
-     * Must be replaced by a more versatile network Queue. too much to create this for every network call.
-     */
-    class BasicInfo implements AsyncCommandAndCallback<Void> {
-
-        int linkKarma;
-        int commentKarma;
-        String name;
-
-        @Override
-        public Void command() {
-            linkKarma = redditClient.me().getLinkKarma();
-            commentKarma = redditClient.me().getCommentKarma();
-            name = redditClient.me().getFullName();
-
-            return null;
-        }
-
-        @Override
-        public void callback(Void result) {
-            System.out.println("set basic info");
-            tvName.setText("Name: " + name);
-            tvCommentKarma.setText("Comment Karma: " + commentKarma);
-            tvLinkKarma.setText("Link Karma: " + linkKarma);
-        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_main);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

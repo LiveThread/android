@@ -2,6 +2,8 @@ package io.github.livethread;
 
 import android.app.Application;
 
+import net.dean.jraw.RedditClient;
+import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
 
 /**
@@ -9,12 +11,14 @@ import net.dean.jraw.http.oauth.Credentials;
  * Handles some unique instances we want to keep around.
  */
 public class LiveThreadApplication extends Application {
+
     private static final String CLIENT_ID = "ZNyXFcDBJ0TNBQ";
     // URL needs to be the same as the one in the reddit app in prefs
     // TODO: we should change this to something like an in app url
     private static final String REDIRECT_URL = "https://github.com/inickt/LiveThread-Android";
 
     private Credentials credentials;
+    private RedditClient redditClient;
 
     /**
      * @return the credentials for OAuth / JRAW.
@@ -24,6 +28,13 @@ public class LiveThreadApplication extends Application {
             credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
         }
         return credentials;
+    }
+
+    public RedditClient getRedditClient() {
+        if (redditClient == null) {
+            redditClient = new RedditClient(UserAgent.of("android", "io.github.livethread", "v0.0.1", "username"));
+        }
+        return redditClient;
     }
 
 }
