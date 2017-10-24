@@ -67,7 +67,7 @@
                 android:gravity="center"
                 android:linksClickable="true"
                 android:paddingBottom="16dp"
-                android:text="https://github.com/inickt/LiveThread-Android\n\nhttp://williamreed.xyz\n\nhttp://nickthompson.guru" />
+                android:text="https://livethread.github.io\n\nhttp://williamreed.xyz\n\nhttp://nickthompson.guru" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
