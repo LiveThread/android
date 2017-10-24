@@ -119,15 +119,11 @@ public class MainActivity extends AppCompatActivity implements SelectSubredditFr
 
         if (id == R.id.nav_main_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_main_about) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_main_settings) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_main_share) {
 
         }
 
