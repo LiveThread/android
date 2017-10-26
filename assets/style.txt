@@ -1,0 +1,12 @@
+Colors:
+ - White:         #FFFFFF
+ - Off-white:     #D6D6D6
+
+ - Light Blue:    #25A9E0
+ - Dark Blue:     #2B3990
+ - Light Orange:  #F6921E
+ - Red Orange:    #EE4036
+
+Fonts:
+ - Roboto
+
