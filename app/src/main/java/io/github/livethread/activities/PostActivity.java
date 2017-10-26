@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import io.github.livethread.AsyncCommandAndCallback;
 import io.github.livethread.DelayRefreshTask;
 import io.github.livethread.R;
 import io.github.livethread.SortCommentsByTime;
 import io.github.livethread.SortedHashedArrayList;
 import io.github.livethread.adapters.CommentsAdapter;
+import io.github.livethread.cac.AsyncCommandAndCallback;
 import io.github.livethread.redditapi.Comment;
 import io.github.livethread.redditapi.Post;
 

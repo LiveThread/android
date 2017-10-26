@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import io.github.livethread.AsyncCACRunner;
-import io.github.livethread.AsyncCommandAndCallback;
+import io.github.livethread.cac.AsyncCACRunner;
+import io.github.livethread.cac.AsyncCommandAndCallback;
 import io.github.livethread.R;
 import io.github.livethread.adapters.PostsAdapter;
 import io.github.livethread.redditapi.Post;

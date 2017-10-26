@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.github.livethread.cac.AsyncCommandAndCallback;
 import io.github.livethread.redditapi.Comment;
 
 /**

@@ -1,7 +1,9 @@
 package io.github.livethread.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -12,11 +14,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import net.dean.jraw.RedditClient;
+import net.dean.jraw.auth.AuthenticationManager;
+import net.dean.jraw.auth.AuthenticationState;
+import net.dean.jraw.auth.RefreshTokenHandler;
+import net.dean.jraw.auth.TokenStore;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.livethread.AndroidTokenStore;
+import io.github.livethread.LiveThreadApplication;
 import io.github.livethread.R;
+import io.github.livethread.activities.LoginActivity;
 import io.github.livethread.adapters.SubredditAdapter;
+import io.github.livethread.cac.AsyncCACRunner;
+import io.github.livethread.cac.Authenticate;
+import io.github.livethread.cac.AuthenticateRefresh;
 import io.github.livethread.redditapi.Subreddit;
 
 
@@ -38,6 +52,7 @@ public class SelectSubredditFragment extends Fragment implements View.OnClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initReddit();
     }
 
     @Override
@@ -47,6 +62,50 @@ public class SelectSubredditFragment extends Fragment implements View.OnClickLis
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.t_subreddit);
         toolbar.setTitle("LiveThread");
         toolbar.setNavigationIcon(R.mipmap.ic_launcher_circle);
+    }
+
+    // TODO: what is this supposed to be?
+    public static final int REQUEST_CODE = 1;
+
+    // gets called on success from the login activity.
+    // TODO: i think this needs to be reworked now that it is a part of a fragment thing
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("rq " + requestCode + " rc " + resultCode);
+        if (requestCode == REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+            String url = data.getStringExtra("RESULT_URL");
+
+            new AsyncCACRunner<>(new Authenticate(
+                    (LiveThreadApplication) getActivity().getApplication(), url)).execute();
+        }
+    }
+
+    /**
+     * Init the reddit stuff.
+     */
+    private void initReddit() {
+        RedditClient redditClient = ((LiveThreadApplication) getActivity().getApplication()).getRedditClient();
+        TokenStore store = new AndroidTokenStore(
+                PreferenceManager.getDefaultSharedPreferences(getActivity()));
+        RefreshTokenHandler refreshTokenHandler = new RefreshTokenHandler(store, redditClient);
+
+        AuthenticationManager manager = AuthenticationManager.get();
+        manager.init(redditClient, refreshTokenHandler);
+
+        // check auth state and display it
+        AuthenticationState authState = AuthenticationManager.get().checkAuthState();
+
+        if (authState == AuthenticationState.NEED_REFRESH) {
+            new AsyncCACRunner<>(new AuthenticateRefresh((LiveThreadApplication) getActivity()
+                    .getApplication())).execute();
+        } else if (authState == AuthenticationState.NONE) {
+            // TODO: what should the actual request code be?
+            // TODO: should login be a fragment?
+            startActivityForResult(new Intent(getActivity(), LoginActivity.class), 1);
+        } else if (authState == AuthenticationState.READY) {
+            // do nothing
+            // maybe fetch some user info or something i dunno.
+        }
     }
 
     /**
