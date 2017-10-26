@@ -19,6 +19,8 @@ import io.github.livethread.fragments.PostListFragment;
 import io.github.livethread.fragments.SelectSubredditFragment;
 import io.github.livethread.redditapi.Post;
 
+// TODO: main activity needs a different structure with fragments and what not...
+
 /**
  * Handles choosing a subreddit and navigating to a certain post from the sub through fragments.
  */
