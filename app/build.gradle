@@ -16,6 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -25,4 +33,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.0.0"
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
+
+    // okhttp for networking
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+
+    // JRAW
+    // TODO: define which versions we actually want to use. May be dangerous as is
+    implementation "com.github.mattbdean:JRAW:master-SNAPSHOT"
+    implementation "com.github.mattbdean:JRAW-Android:master-SNAPSHOT"
 }
