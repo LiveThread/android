@@ -30,6 +30,8 @@
         <meta-data
             android:name="net.dean.jraw.android.REDIRECT_URL"
             android:value="https://livethread.github.io/authenticate/" />
+
+        <activity android:name=".NewUserActivity"></activity>
     </application>
 
 </manifest>
