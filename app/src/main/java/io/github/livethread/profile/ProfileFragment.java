@@ -1,4 +1,4 @@
-package io.github.livethread;
+package io.github.livethread.profile;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,20 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by williamreed on 12/31/17.
- * Fragment for a Subreddit.
+ * Created by williamreed on 1/9/18.
+ * Fragment for a profile.
  */
 
-public class SubredditFragment extends Fragment {
-    private static final String SUBREDDIT_KEY = "subreddit_name";
-    private SubredditViewModel viewModel;
+public class ProfileFragment extends Fragment {
+    private ProfileViewModel viewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         // TODO: not sure where I need to init the subreddit view model ?
 
         super.onActivityCreated(savedInstanceState);
-        viewModel.getSubreddit().observe(this, user -> {
+        viewModel.getUser().observe(this, user -> {
             // this will get triggered by the changing of LiveData
             // update UI
         });

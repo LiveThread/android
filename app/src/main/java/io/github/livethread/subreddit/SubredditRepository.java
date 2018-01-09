@@ -1,4 +1,4 @@
-package io.github.livethread;
+package io.github.livethread.subreddit;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

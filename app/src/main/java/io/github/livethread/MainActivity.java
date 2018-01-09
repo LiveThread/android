@@ -76,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.mainActivity_navDrawer_subreddits:
                     break;
+                default:
+                    return false;
             }
+            return true;
         }
     }
 }
