@@ -22,6 +22,7 @@ import java.util.UUID;
 public class LiveThreadApplication extends Application {
     private static SharedPreferencesTokenStore tokenStore;
     private static AccountHelper accountHelper;
+    public static final String PREFS_NAME = "LIVETHREAD_PREFS";
 
     @Override
     public void onCreate() {
@@ -64,4 +65,10 @@ public class LiveThreadApplication extends Application {
         return accountHelper;
     }
 
+    /**
+     * @return the token store
+     */
+    public static SharedPreferencesTokenStore getTokenStore() {
+        return tokenStore;
+    }
 }

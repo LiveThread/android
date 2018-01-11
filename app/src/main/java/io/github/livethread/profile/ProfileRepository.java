@@ -1,9 +1,10 @@
 package io.github.livethread.profile;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-
 import net.dean.jraw.models.Account;
+
+import rx.Observable;
+
+import static io.github.livethread.LiveThreadApplication.getAccountHelper;
 
 /**
  * Created by williamreed on 1/9/18.
@@ -11,11 +12,22 @@ import net.dean.jraw.models.Account;
  */
 public class ProfileRepository {
 
-    LiveData<Account> getUser(String username) {
-        final MutableLiveData<Account> data = new MutableLiveData<>();
+    /**
+     * Get the given user.
+     *
+     * @param username
+     * @return the Account for the given user
+     */
+    public Observable<Account> getUser(String username) {
+        // need to defer this to subscription to avoid main thread networking
+        return Observable.defer(() -> Observable.just(getAccountHelper().getReddit().user(username).about()));
+    }
 
-        // TODO: call jraw...
-
-        return data;
+    /**
+     * @return the Account of the logged in user.
+     */
+    public Observable<Account> getMe() {
+        Account account = getAccountHelper().getReddit().me().about();
+        return Observable.just(account);
     }
 }
