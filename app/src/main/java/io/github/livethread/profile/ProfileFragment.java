@@ -1,5 +1,6 @@
 package io.github.livethread.profile;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import net.dean.jraw.models.Account;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.github.livethread.LiveThreadApplication;
 import io.github.livethread.R;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -51,7 +54,7 @@ public class ProfileFragment extends Fragment {
         profileRepository = new ProfileRepository();
         username = getArguments().getString("username");
         Log.d(TAG, "Starting Profile Fragment. Given username: '" + username + "'");
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
         fetchUser(username);
     }
 
@@ -97,5 +100,23 @@ public class ProfileFragment extends Fragment {
                         account = a;
                     }
                 });
+    }
+
+    /**
+     * Log the current user out.
+     */
+    @OnClick(R.id.b_logout)
+    public void logout() {
+        // logout from client
+        LiveThreadApplication.getAccountHelper().switchToUserless();
+        // remove username cache
+        SharedPreferences settings = getActivity().getSharedPreferences(LiveThreadApplication.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove("username");
+        editor.commit();
+        // remove tokens
+        LiveThreadApplication.getTokenStore().deleteLatest(username);
+
+        Log.d(TAG, "User logged out");
     }
 }

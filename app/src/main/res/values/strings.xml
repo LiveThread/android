@@ -2,4 +2,5 @@
     <string name="app_name">LiveThread</string>
     <string name="main_navigation_drawer_open">Main Navigation Drawer Open</string>
     <string name="main_navigation_drawer_closed">Main Navigation Drawer Closed</string>
+    <string name="logout">Logout</string>
 </resources>

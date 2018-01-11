@@ -35,67 +35,64 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         initNavigationDrawer();
+        authenticateUser();
 
+        // make sure a user is authenticated
+        if (LiveThreadApplication.getAccountHelper().isAuthenticated())
+            openProfile();
+        else
+            Log.e(TAG, "User not authenticated");
+    }
+
+    /**
+     * Ensure a user is currently authenticated or can be refreshed or prompt user for login.
+     */
+    private void authenticateUser() {
         // check whats up with the user
         if (LiveThreadApplication.getTokenStore().size() == 0) {
             Log.d(TAG, "no tokens available- starting authentication view");
-            authenticate();
+            newAuthentication();
+            return;
         }
+
         String username = "";
-        // make sure we are authenticated
-        if (!LiveThreadApplication.getAccountHelper().isAuthenticated()) {
-            Log.d(TAG, "attempting to find old user and refresh that");
-            // find the last logged in user
-            SharedPreferences settings = getSharedPreferences(LiveThreadApplication.PREFS_NAME, 0);
-            username = settings.getString("username", null);
-            if (username == null) {
-                Log.d(TAG, "user is null - starting authentication view");
-                authenticate();
-            } else {
-                try {
-                    // try and renew for that user
-                    Log.d(TAG, "trying to refresh user");
-                    LiveThreadApplication.getAccountHelper().switchToUser(username);
-                    Log.d(TAG, "refresh successful");
-                } catch (IllegalStateException e) {
-                    // nothing useable to do with that user.
-                    Log.d(TAG, "refresh failed");
-                    authenticate();
-                }
+        Log.d(TAG, "attempting to find old user and refresh that");
+        // find the last logged in user
+        SharedPreferences settings = getSharedPreferences(LiveThreadApplication.PREFS_NAME, 0);
+        username = settings.getString("username", null);
+        if (username == null) {
+            Log.d(TAG, "user is null - starting authentication view");
+            newAuthentication();
+            return;
+        } else {
+            try {
+                // try and renew for that user
+                Log.d(TAG, "trying to refresh user");
+                LiveThreadApplication.getAccountHelper().switchToUser(username);
+                Log.d(TAG, "refresh successful");
+            } catch (IllegalStateException e) {
+                // nothing useable to do with that user.
+                Log.d(TAG, "refresh failed");
+                newAuthentication();
+                return;
             }
         }
-
-        assert (username != null);
-
-        if (LiveThreadApplication.getAccountHelper().isAuthenticated()) {
-            Log.d(TAG, "authenticated; starting user profile fragment");
-            Fragment newFragment = new ProfileFragment();
-            Bundle args = new Bundle();
-            args.putString("username", username);
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack
-            transaction.replace(R.id.frameLayout, newFragment);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
-        }
-
     }
 
-    private void authenticate() {
+    /**
+     * Start the NewUserActivty for its result. To call when no other users are active.
+     */
+    private void newAuthentication() {
         startActivityForResult(new Intent(this, NewUserActivity.class), REQ_CODE_LOGIN);
     }
 
+    // accept responses from the NewUserActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // The user could have pressed the back button before authorizing our app, make sure we have
         // an authenticated user before starting the UserOverviewActivity.
         if (requestCode == REQ_CODE_LOGIN && resultCode == RESULT_OK) {
-            // store the account in prefs
+            // store the account in prefs for quick checking later.
             SharedPreferences settings = getSharedPreferences(LiveThreadApplication.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("username", LiveThreadApplication.getAccountHelper().getReddit().requireAuthenticatedUser());
@@ -137,6 +134,28 @@ public class MainActivity extends AppCompatActivity {
         assert (drawerLayout != null);
     }
 
+    private void openProfile() {
+        if (LiveThreadApplication.getAccountHelper().isAuthenticated()) {
+            Log.d(TAG, "authenticated; starting user profile fragment");
+            Fragment newFragment = new ProfileFragment();
+            Bundle args = new Bundle();
+            SharedPreferences settings = getSharedPreferences(LiveThreadApplication.PREFS_NAME, 0);
+            String username = settings.getString("username", null);
+            assert (username != null);
+            args.putString("username", username);
+            newFragment.setArguments(args);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack
+            transaction.replace(R.id.frameLayout, newFragment);
+            transaction.addToBackStack(null);
+
+            // Commit the transaction
+            transaction.commit();
+        }
+    }
+
     /**
      * Handle clicks to the main navigation drawer (likely to switch fragments).
      */
@@ -152,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navDrawer_popular:
                     break;
                 case R.id.navDrawer_profile:
-                    // TODO
+                    openProfile();
                     break;
                 case R.id.navDrawer_settings:
                     break;
@@ -161,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     return false;
             }
+            drawerLayout.closeDrawers();
             return true;
         }
     }
