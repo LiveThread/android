@@ -37,7 +37,7 @@ public class NewUserActivity extends AppCompatActivity {
         // Don't save any cookies, cache, or history from previous sessions. If we don't, once the
         // first user logs in and authenticates, the next time we go to add a new user, the first
         // user will be automatically logged in, which is not what we want.
-        final WebView webView = findViewById(R.id.newUserActivity_webView);
+        final WebView webView = findViewById(R.id.webView);
         webView.clearCache(true);
         webView.clearHistory();
 

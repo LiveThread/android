@@ -15,11 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.livethread.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
+    @BindView(R.id.drawerLayout) DrawerLayout drawerLayout;
+    @BindView(R.id.navigationView) NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
 
     private static final int REQ_CODE_LOGIN = 0;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
         initNavigationDrawer();
 
         // check whats up with the user
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack
-            transaction.replace(R.id.mainActivity_frameLayout, newFragment);
+            transaction.replace(R.id.frameLayout, newFragment);
             transaction.addToBackStack(null);
 
             // Commit the transaction
@@ -106,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
      * Initialize the navigation drawer.
      */
     private void initNavigationDrawer() {
-        drawerLayout = findViewById(R.id.mainActivity_drawerLayout);
-
         // handles some changes when the drawer is open or not
         drawerToggle = new ActionBarDrawerToggle(
                 this,          /* host Activity */
@@ -129,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         drawerLayout.addDrawerListener(drawerToggle);
-        // TODO: setup click handlers / populate drawer, etc.
-        NavigationView navigationView = findViewById(R.id.mainActivity_navigationView);
         navigationView.setNavigationItemSelectedListener(new NavDrawerItemClickListener());
 
         // are these any use?
@@ -147,16 +147,16 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             switch (id) {
-                case R.id.mainActivity_navDrawer_home:
+                case R.id.navDrawer_home:
                     break;
-                case R.id.mainActivity_navDrawer_popular:
+                case R.id.navDrawer_popular:
                     break;
-                case R.id.mainActivity_navDrawer_profile:
+                case R.id.navDrawer_profile:
                     // TODO
                     break;
-                case R.id.mainActivity_navDrawer_settings:
+                case R.id.navDrawer_settings:
                     break;
-                case R.id.mainActivity_navDrawer_subreddits:
+                case R.id.navDrawer_subreddits:
                     break;
                 default:
                     return false;

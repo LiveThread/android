@@ -3,24 +3,24 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/mainActivity_navDrawer_home"
+            android:id="@+id/navDrawer_home"
             android:checked="true"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Home" />
         <item
-            android:id="@+id/mainActivity_navDrawer_subreddits"
+            android:id="@+id/navDrawer_subreddits"
             android:icon="@drawable/ic_cloud_black_24dp"
             android:title="Subreddits" />
         <item
-            android:id="@+id/mainActivity_navDrawer_popular"
+            android:id="@+id/navDrawer_popular"
             android:icon="@drawable/ic_trending_up_black_24dp"
             android:title="Popular" />
         <item
-            android:id="@+id/mainActivity_navDrawer_settings"
+            android:id="@+id/navDrawer_settings"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Settings" />
         <item
-            android:id="@+id/mainActivity_navDrawer_profile"
+            android:id="@+id/navDrawer_profile"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="Profile" />
     </group>

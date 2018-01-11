@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import net.dean.jraw.models.Account;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.livethread.R;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -29,9 +31,9 @@ public class ProfileFragment extends Fragment {
     private String username;
     private Account account;
 
-    TextView tvUsername;
-    TextView tvCommentKarma;
-    TextView tvLinkKarma;
+    @BindView(R.id.tv_username)      TextView tvUsername;
+    @BindView(R.id.tv_commentKarma)  TextView tvCommentKarma;
+    @BindView(R.id.tv_linkKarma)     TextView tvLinkKarma;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -39,8 +41,8 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_user, container, false);
     }
 
@@ -48,11 +50,8 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         profileRepository = new ProfileRepository();
         username = getArguments().getString("username");
-        tvUsername = getView().findViewById(R.id.userFragment_textView_username);
-        tvCommentKarma = getView().findViewById(R.id.userFragment_textView_commentKarma);
-        tvLinkKarma = getView().findViewById(R.id.userFragment_textView_linkKarma);
-        Log.d(TAG, "set view variables");
-
+        Log.d(TAG, "Starting Profile Fragment. Given username: '" + username + "'");
+        ButterKnife.bind(view);
         fetchUser(username);
     }
 
@@ -64,7 +63,9 @@ public class ProfileFragment extends Fragment {
     private void fetchUser(String username) {
         Log.d(TAG, "fetching user '" + username + "'");
         profileRepository.getUser(username)
+                // retrieve on non main thread
                 .subscribeOn(Schedulers.io())
+                // take action on main thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Account>() {
                     @Override
@@ -76,7 +77,7 @@ public class ProfileFragment extends Fragment {
                             tvCommentKarma.setText(String.valueOf(account.getCommentKarma()) + " comment karma");
                             tvLinkKarma.setText(String.valueOf(account.getLinkKarma()) + " link karma");
                         } catch (Exception e) {
-                            Log.e(TAG, "error fetching user profile");
+                            Log.e(TAG, "error fetching user");
                             Log.e(TAG, e.getLocalizedMessage());
                         }
                     }

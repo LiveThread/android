@@ -27,7 +27,6 @@ public class ProfileRepository {
      * @return the Account of the logged in user.
      */
     public Observable<Account> getMe() {
-        Account account = getAccountHelper().getReddit().me().about();
-        return Observable.just(account);
+        return Observable.defer(() -> Observable.just(getAccountHelper().getReddit().me().about()));
     }
 }
