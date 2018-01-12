@@ -20,6 +20,7 @@ import io.github.livethread.LiveThreadApplication;
 import io.github.livethread.R;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -34,6 +35,7 @@ public class ProfileFragment extends Fragment {
     private ProfileRepository profileRepository;
     private String username;
     private Account account;
+    private Subscription userSubscription;
 
     @BindView(R.id.tv_username)      TextView tvUsername;
     @BindView(R.id.tv_commentKarma)  TextView tvCommentKarma;
@@ -66,7 +68,7 @@ public class ProfileFragment extends Fragment {
      */
     private void fetchUser(String username) {
         Log.d(TAG, "fetching user '" + username + "'");
-        profileRepository.getUser(username)
+        userSubscription = profileRepository.getUser(username)
                 // retrieve on non main thread
                 .subscribeOn(Schedulers.io())
                 // take action on main thread
@@ -126,4 +128,10 @@ public class ProfileFragment extends Fragment {
         Log.d(TAG, "User logged out");
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        userSubscription.unsubscribe();
+    }
 }
