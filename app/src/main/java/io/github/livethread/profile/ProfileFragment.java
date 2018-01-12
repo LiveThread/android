@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.livethread.LiveThreadApplication;
 import io.github.livethread.R;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -108,7 +109,11 @@ public class ProfileFragment extends Fragment {
     @OnClick(R.id.b_logout)
     public void logout() {
         // logout from client
-        LiveThreadApplication.getAccountHelper().switchToUserless();
+        Observable.create((Observable.OnSubscribe<Void>) subscriber -> {
+            LiveThreadApplication.getAccountHelper().switchToUserless();
+            subscriber.onCompleted();
+        }).subscribeOn(Schedulers.io());
+
         // remove username cache
         SharedPreferences settings = getActivity().getSharedPreferences(LiveThreadApplication.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -117,6 +122,8 @@ public class ProfileFragment extends Fragment {
         // remove tokens
         LiveThreadApplication.getTokenStore().deleteLatest(username);
 
+
         Log.d(TAG, "User logged out");
     }
+
 }
