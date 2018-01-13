@@ -14,6 +14,8 @@ import net.dean.jraw.oauth.AccountHelper;
 
 import java.util.UUID;
 
+import okhttp3.OkHttpClient;
+
 /**
  * Created by williamreed on 12/31/17.
  * Handles some unique instances we want to keep around.
@@ -24,10 +26,18 @@ public class LiveThreadApplication extends Application {
     private static AccountHelper accountHelper;
     public static final String PREFS_NAME = "LIVETHREAD_PREFS";
 
+    private static OkHttpClient okHttpClient;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        setupJRAW();
+    }
 
+    /**
+     * Setup everything for JRAW.
+     */
+    private void setupJRAW() {
         // Get UserAgent and OAuth2 data from AndroidManifest.xml
         AppInfoProvider provider = new ManifestAppInfoProvider(getApplicationContext());
 
@@ -42,7 +52,7 @@ public class LiveThreadApplication extends Application {
         tokenStore.setAutoPersist(true);
 
         // An AccountHelper manages switching between accounts and into/out of userless mode.
-        accountHelper = AndroidHelper.accountHelper(provider, deviceUuid, tokenStore);
+        accountHelper = AndroidHelper.accountHelper(provider, deviceUuid, tokenStore, getOkHttpClient());
 
         // extra info for logging
         accountHelper.onSwitch(redditClient -> {
@@ -70,5 +80,15 @@ public class LiveThreadApplication extends Application {
      */
     public static SharedPreferencesTokenStore getTokenStore() {
         return tokenStore;
+    }
+
+    /**
+     * @return Get this apps OkHttpClient singleton.
+     */
+    public static OkHttpClient getOkHttpClient() {
+        if (okHttpClient == null) {
+            okHttpClient = new OkHttpClient();
+        }
+        return okHttpClient;
     }
 }
