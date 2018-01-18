@@ -27,10 +27,12 @@ import rx.schedulers.Schedulers;
 /**
  * Created by williamreed on 1/9/18.
  * Fragment for a profile. Expects argument with name 'username'.
+ * Use {@link ProfileFragment#newInstance} to construct.
  */
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = "lt_ProfileFragment";
+    private static final String ARG_USERNAME = "ARG_USERNAME";
 
     private ProfileRepository profileRepository;
     private String username;
@@ -40,6 +42,21 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tv_username)      TextView tvUsername;
     @BindView(R.id.tv_commentKarma)  TextView tvCommentKarma;
     @BindView(R.id.tv_linkKarma)     TextView tvLinkKarma;
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param username the username to show the profile of.
+     * @return A new instance of fragment HomeFragment.
+     */
+    public static ProfileFragment newInstance(String username) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_USERNAME, username);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -53,11 +70,19 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        profileRepository = new ProfileRepository();
-        username = getArguments().getString("username");
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            username = getArguments().getString(ARG_USERNAME);
+        } else {
+            Log.e(TAG, "username not provided to ProfileFragment");
+            throw new RuntimeException("username not provided to ProfileFragment");
+        }
+
         Log.d(TAG, "Starting Profile Fragment. Given username: '" + username + "'");
-        ButterKnife.bind(this, view);
+        profileRepository = new ProfileRepository();
+        ButterKnife.bind(this, getView());
         fetchUser(username);
     }
 

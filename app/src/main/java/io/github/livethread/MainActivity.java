@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -137,13 +136,11 @@ public class MainActivity extends AppCompatActivity {
     private void openProfile() {
         if (LiveThreadApplication.getAccountHelper().isAuthenticated()) {
             Log.d(TAG, "authenticated; starting user profile fragment");
-            Fragment newFragment = new ProfileFragment();
             Bundle args = new Bundle();
             SharedPreferences settings = getSharedPreferences(LiveThreadApplication.PREFS_NAME, 0);
             String username = settings.getString("username", null);
             assert (username != null);
-            args.putString("username", username);
-            newFragment.setArguments(args);
+            ProfileFragment newFragment = ProfileFragment.newInstance(username);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             // Replace whatever is in the fragment_container view with this fragment,
